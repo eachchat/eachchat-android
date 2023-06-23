@@ -133,7 +133,7 @@ ext.libs = [
         ],
         maplibre    : [
                 'androidSdk'             : "org.maplibre.gl:android-sdk:10.0.2",
-                'pluginAnnotation'       : "org.maplibre.gl:android-plugin-annotation-v9:1.0.0"
+                'pluginAnnotation'       : "org.maplibre.gl:android-plugin-annotation-v9:2.0.0-pre0"
         ],
         mockk      : [
                 'mockk'                   : "io.mockk:mockk:$mockk",
