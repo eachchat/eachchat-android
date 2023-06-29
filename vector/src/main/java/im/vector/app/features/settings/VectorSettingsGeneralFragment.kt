@@ -18,6 +18,7 @@
 
 package im.vector.app.features.settings
 
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -55,6 +56,7 @@ import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
 import im.vector.app.features.analytics.plan.MobileScreen
 import im.vector.app.features.discovery.DiscoverySettingsFragment
+import im.vector.app.features.homeserver.ServerUrlsRepository
 import im.vector.app.features.navigation.SettingsActivityPayload
 import im.vector.app.features.workers.signout.SignOutUiWorker
 import kotlinx.coroutines.Dispatchers
@@ -82,6 +84,7 @@ class VectorSettingsGeneralFragment :
         GalleryOrCameraDialogHelper.Listener {
 
     @Inject lateinit var galleryOrCameraDialogHelperFactory: GalleryOrCameraDialogHelperFactory
+    @Inject lateinit var serverUrlsRepository: ServerUrlsRepository
 
     override var titleRes = R.string.settings_general_title
     override val preferenceXmlRes = R.xml.vector_settings_general
@@ -193,6 +196,11 @@ class VectorSettingsGeneralFragment :
                 false
             }
         } else {
+            mPasswordPreference.isVisible = false
+        }
+        //TODO 判断是否是满足需求的链接，是就隐藏密码修改
+        val homeserver = serverUrlsRepository.getLastHomeServerUrl()
+        if (homeserver.contains("chat.yunify.com")){
             mPasswordPreference.isVisible = false
         }
 

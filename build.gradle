@@ -8,13 +8,17 @@ buildscript {
         // Do not use `google()`, it prevents Dependabot from working properly
         maven {
             url 'https://maven.google.com'
+            allowInsecureProtocol = true
+
         }
         maven {
             url "https://plugins.gradle.org/m2/"
+            allowInsecureProtocol = true
         }
         // Do not use `mavenCentral()`, it prevents Dependabot from working properly
         maven {
             url 'https://repo1.maven.org/maven2'
+            allowInsecureProtocol = true
         }
     }
 

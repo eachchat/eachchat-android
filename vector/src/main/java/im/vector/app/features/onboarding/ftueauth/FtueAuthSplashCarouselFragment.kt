@@ -80,11 +80,14 @@ class FtueAuthSplashCarouselFragment :
                 .also { it.attach() }
 
         carouselController.setData(carouselStateFactory.create())
-
-        val isAlreadyHaveAccountEnabled = vectorFeatures.isOnboardingAlreadyHaveAccountSplashEnabled()
+        //TODO 这里是控制注册和已有账号显隐的地方，isAlreadyHaveAccountEnabled 直接=false
+//        val isAlreadyHaveAccountEnabled = vectorFeatures.isOnboardingAlreadyHaveAccountSplashEnabled()
+        val isAlreadyHaveAccountEnabled = false
         views.loginSplashSubmit.apply {
-            setText(if (isAlreadyHaveAccountEnabled) R.string.login_splash_create_account else R.string.login_splash_submit)
-            debouncedClicks { splashSubmit(isAlreadyHaveAccountEnabled) }
+            setText(if (false) R.string.login_splash_create_account else R.string.login_splash_submit)
+//            debouncedClicks { splashSubmit(isAlreadyHaveAccountEnabled) }
+            //TODO 这里跳过选择服务器直接进入登陆主界面
+            debouncedClicks { alreadyHaveAnAccount() }
         }
         views.loginSplashAlreadyHaveAccount.apply {
             isVisible = isAlreadyHaveAccountEnabled
@@ -99,6 +102,8 @@ class FtueAuthSplashCarouselFragment :
             views.loginSplashVersion.debouncedClicks { navigator.openDebug(requireContext()) }
         }
         views.splashCarousel.registerAutomaticUntilInteractionTransitions()
+        //TODO 这里控制创建账号和版本的显隐问题
+        views.loginSplashVersion.visibility = View.INVISIBLE
     }
 
     private fun ViewPager2.registerAutomaticUntilInteractionTransitions() {
