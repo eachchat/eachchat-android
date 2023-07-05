@@ -17,6 +17,13 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <service
+            android:name="im.vector.app.push.getui.PushService"
+            android:exported="false"
+            android:label="PushService"
+            android:process=":pushservice"
+            />
+        <service android:name="im.vector.app.push.getui.IntentService"/>
     </application>
 
 </manifest>

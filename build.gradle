@@ -20,6 +20,8 @@ buildscript {
             url 'https://repo1.maven.org/maven2'
             allowInsecureProtocol = true
         }
+        //华为
+        maven {url 'https://developer.huawei.com/repo/'}
     }
 
     dependencies {
@@ -40,6 +42,8 @@ buildscript {
         classpath libs.squareup.paparazziPlugin
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        // 华为
+        classpath 'com.huawei.agconnect:agcp:1.6.0.300'
     }
 }
 
@@ -133,6 +137,11 @@ allprojects {
                 groups.mavenSnapshots.group.each { includeGroup it }
             }
         }
+        maven {
+            url "https://mvn.getui.com/nexus/content/repositories/releases/"
+        }
+        //华为
+        maven {url 'https://developer.huawei.com/repo/'}
 
     }
 

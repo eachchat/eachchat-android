@@ -4,7 +4,8 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.devtools.ksp'
 apply plugin: 'dagger.hilt.android.plugin'
-
+//华为
+apply plugin: 'com.huawei.agconnect'
 if (project.hasProperty("coverage")) {
     apply plugin: 'jacoco'
 }
@@ -48,7 +49,10 @@ android {
         }
 
         // Generate a random app task affinity
-        manifestPlaceholders = [appTaskAffinitySuffix: "H_${gitRevision()}"]
+        manifestPlaceholders = [
+                appTaskAffinitySuffix: "H_${gitRevision()}",
+                GETUI_APPID       : "jGoXrHRZkEACkLhdVwGyn6",
+        ]
 
         // The following argument makes the Android Test Orchestrator run its
         // "pm clear" command after each test invocation. This command ensures
