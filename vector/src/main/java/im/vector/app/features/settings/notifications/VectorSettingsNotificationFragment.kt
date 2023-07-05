@@ -21,9 +21,11 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.lifecycleScope
@@ -49,6 +51,7 @@ import im.vector.app.core.utils.isIgnoringBatteryOptimizations
 import im.vector.app.core.utils.registerForPermissionsResult
 import im.vector.app.core.utils.requestDisablingBatteryOptimization
 import im.vector.app.core.utils.startNotificationSettingsIntent
+import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.VectorFeatures
 import im.vector.app.features.analytics.plan.MobileScreen
 import im.vector.app.features.home.NotificationPermissionManager
@@ -124,6 +127,7 @@ class VectorSettingsNotificationFragment :
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun bindPref() {
         findPreference<VectorSwitchPreference>(VectorPreferences.SETTINGS_ENABLE_ALL_NOTIF_PREFERENCE_KEY)!!.let { pref ->
             val pushRuleService = session.pushRuleService()
@@ -143,11 +147,14 @@ class VectorSettingsNotificationFragment :
         findPreference<SwitchPreference>(VectorPreferences.SETTINGS_ENABLE_THIS_DEVICE_PREFERENCE_KEY)
                 ?.setOnPreferenceChangeListener { _, isChecked ->
                     val action = if (isChecked as Boolean) {
-                        VectorSettingsNotificationViewAction.EnableNotificationsForDevice(pushDistributor = "")
+//                        VectorSettingsNotificationViewAction.EnableNotificationsForDevice(pushDistributor = "")
+                        PushHelper.getInstance().registerPusher()
                     } else {
-                        VectorSettingsNotificationViewAction.DisableNotificationsForDevice
+//                        VectorSettingsNotificationViewAction.DisableNotificationsForDevice
+                        PushHelper.getInstance().unregisterPusher()
+                        session.pushersService().refreshPushers()
                     }
-                    viewModel.handle(action)
+//                    viewModel.handle(action)
                     // preference will be updated on ViewEvent reception
                     false
                 }
