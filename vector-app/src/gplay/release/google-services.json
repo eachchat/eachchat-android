@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "320407488155",
+    "project_id": "eachchat-4abb0",
+    "storage_bucket": "eachchat-4abb0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320407488155:android:85a107da3f223e62cfe83e",
+        "android_client_info": {
+          "package_name": "ai.workly.eachchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320407488155-n2mitd7tqv0ba82dmv0g3p03othg7fr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcPWFDgS3pSQetWeGtVOIAIS7yPQP3QLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320407488155-n2mitd7tqv0ba82dmv0g3p03othg7fr3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320407488155:android:6911093868c91543cfe83e",
+        "android_client_info": {
+          "package_name": "im.vector.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320407488155-n2mitd7tqv0ba82dmv0g3p03othg7fr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcPWFDgS3pSQetWeGtVOIAIS7yPQP3QLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320407488155-n2mitd7tqv0ba82dmv0g3p03othg7fr3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

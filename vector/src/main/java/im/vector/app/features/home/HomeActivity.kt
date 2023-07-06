@@ -51,6 +51,7 @@ import im.vector.app.core.pushers.UnifiedPushHelper
 import im.vector.app.core.utils.registerForPermissionsResult
 import im.vector.app.core.utils.startSharePlainTextIntent
 import im.vector.app.databinding.ActivityHomeBinding
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
@@ -209,6 +210,7 @@ class HomeActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isNewAppLayoutEnabled = vectorPreferences.isNewAppLayoutEnabled()
+        BaseModule.setSession(activeSessionHolder.getActiveSession())
         analyticsScreenName = MobileScreen.ScreenName.Home
         PushHelper.getInstance().startPush(activeSessionHolder)
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false)

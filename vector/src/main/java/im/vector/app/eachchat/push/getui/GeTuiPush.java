@@ -39,6 +39,11 @@ public class GeTuiPush extends AbsPush {
     }
 
     @Override
+    public String getPNS() {
+        return null;
+    }
+
+    @Override
     public void setBadgeCount(Context context, int count) {
 
     }

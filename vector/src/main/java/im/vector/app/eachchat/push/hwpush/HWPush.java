@@ -23,6 +23,8 @@ import io.reactivex.schedulers.Schedulers;
  * Created by zhouguanjie on 2020/1/16.
  */
 public class HWPush extends AbsPush {
+    public String pns;
+    public String regID;
 
     public HWPush(Context context) {
         super(context);
@@ -31,22 +33,24 @@ public class HWPush extends AbsPush {
     @SuppressLint("CheckResult")
     @Override
     public void init(Context context) {
-        Observable.create((ObservableOnSubscribe<Boolean>) emitter -> {
-            boolean result = true;
-            try {
-                String token = HmsInstanceId.getInstance(context)
-                        .getToken(context.getString(R.string.huawei_push_appid), "HMS");
-                LogUtil.i("huapush token====",token);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    LogUtil.i("huapush token bind====",token);
-                    PushHelper.getInstance().bindDevice(token);
-                }
-            } catch (ApiException e) {
-                e.printStackTrace();
-                result = false;
-            }
-            emitter.onNext(result);
-        }).subscribeOn(Schedulers.newThread())
+        Observable.create(emitter -> {
+                    boolean result = true;
+                    try {
+                        String token = HmsInstanceId.getInstance(context)
+                                .getToken(context.getString(R.string.huawei_push_appid), "HMS");
+                        LogUtil.i("huapush token====", token);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            LogUtil.i("huapush token bind====", token);
+                            this.regID = token;
+                            this.pns="huawei";
+                            PushHelper.getInstance().bindDevice(token);
+                        }
+                    } catch (ApiException e) {
+                        e.printStackTrace();
+                        result = false;
+                    }
+                    emitter.onNext(result);
+                }).subscribeOn(Schedulers.newThread())
                 .subscribe(aBoolean -> {
                     LogUtil.i("## hw init appId = " + context.getString(R.string.huawei_push_appid));
                 });
@@ -66,7 +70,20 @@ public class HWPush extends AbsPush {
 
     @Override
     public String getRegId() {
-        return null;
+        return this.regID;
+    }
+
+
+
+    @Override
+    public String getPNS() {
+        return this.pns;
+    }
+    public void setRegId(String regID) {
+        this.regID = regID;
+    }
+    public void setPNS(String pns) {
+        this.pns = pns;
     }
 
     @Override

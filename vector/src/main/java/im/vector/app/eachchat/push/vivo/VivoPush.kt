@@ -13,9 +13,11 @@ import im.vector.app.eachchat.push.PushHelper
  * Created by zhouguanjie on 2021/4/19.
  */
 class VivoPush(context: Context) : AbsPush(context) {
-
+    var regID : String? = null
+    var pns :String?=null
     override fun init(context: Context) {
         LogUtil.i("## vivo init")
+        pns="vivo"
         PushClient.getInstance(context).initialize();
     }
 
@@ -36,6 +38,10 @@ class VivoPush(context: Context) : AbsPush(context) {
     override fun getRegId(): String? {
         LogUtil.i("## vivo getRegId = ${PushClient.getInstance(BaseModule.getContext()).regId}")
         return PushClient.getInstance(BaseModule.getContext()).regId
+    }
+
+    override fun getPNS(): String? {
+        return pns
     }
 
     override fun setBadgeCount(context: Context?, count: Int) {

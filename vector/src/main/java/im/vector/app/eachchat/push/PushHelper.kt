@@ -25,6 +25,7 @@ import androidx.annotation.RequiresApi
 import im.vector.app.R
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.di.DefaultSharedPreferences
+import im.vector.app.core.resources.StringProvider
 import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.bean.PNSInput
 import im.vector.app.eachchat.net.CloseableCoroutineScope
@@ -51,6 +52,7 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import timber.log.Timber
 import kotlin.math.abs
+import javax.inject.Inject
 
 class PushHelper {
 
@@ -58,9 +60,10 @@ class PushHelper {
     private var pushClient: AbsPush? = null
     private var hasReg = false
     private var hasBind = false
-    private val scope: CloseableCoroutineScope by lazy { CloseableCoroutineScope() }
 
+    private val scope: CloseableCoroutineScope by lazy { CloseableCoroutineScope() }
     var retryCount = 0 //
+
     @RequiresApi(Build.VERSION_CODES.N)
     fun init() {
         if (hasReg) {
@@ -68,7 +71,7 @@ class PushHelper {
             initClient(AppCache.getPNS())
             return
         }
-        val pns = AppCache.getPNS()
+//        val pns = AppCache.getPNS()
         val input = PNSInput()
         input.model = Build.MODEL
         input.brand = Build.BRAND
@@ -91,13 +94,16 @@ class PushHelper {
                         }
                     }
                 }
-            }.exceptionOrNull()?.let{
+            }.exceptionOrNull()?.let {
                 Timber.v("获取通知PNS异常")
                 it.printStackTrace()
             }
         }
-        if (input.brand.equals("HUAWEI")){
-            initClient(pns)
+        if (input.brand.equals("HUAWEI")) {
+            initClient("huawei")
+        }
+        if (input.brand.equals("VIVO")) {
+            initClient("vivo")
         }
     }
 
@@ -107,19 +113,19 @@ class PushHelper {
             return
         }
         pushClient = when (type) {
-            TYPE_HMS       -> HWPush(BaseModule.getContext())
+            TYPE_HMS -> HWPush(BaseModule.getContext())
 //            TYPE_MIPUSH    -> MiPush(BaseModule.getContext())
 //            TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
             TYPE_VIVO_PUSH -> VivoPush(BaseModule.getContext())
-            TYPE_GETUI     -> GeTuiPush(BaseModule.getContext())
-            TYPE_FIREBASE  -> FirebasePush(BaseModule.getContext())
-            else           -> GeTuiPush(BaseModule.getContext())
+            TYPE_GETUI -> GeTuiPush(BaseModule.getContext())
+            TYPE_FIREBASE -> FirebasePush(BaseModule.getContext())
+            else -> GeTuiPush(BaseModule.getContext())
         }
         try {
             pushClient?.init(BaseModule.getContext())
             pushClient?.startPush()
             clearNotification()
-            bindDevice(pushClient?.regId)
+//            bindDevice(pushClient?.regId)
             Timber.v("通知初始化完成")
         } catch (e: Exception) {
             Timber.v("通知初始化异常")
@@ -130,7 +136,7 @@ class PushHelper {
     /**
      * bind the Matrix service and the push service through regId
      */
-    fun bindDevice(regId: String?) {
+    fun bindDevice(regId : String?) {
         if (hasBind) {
             return
         }
@@ -141,8 +147,11 @@ class PushHelper {
 //                return
 //            }
         try {
-            val session = BaseModule.getSession() ?: return
-            val pushGateWay = NetConstant.getPushHost()
+            val session = BaseModule.getSession()
+            if (session == null) {
+                return
+            }
+            val pushGateWay = BaseModule.getContext().getString(R.string.pusher_http_url)
             if (TextUtils.isEmpty(pushGateWay)) return
             val profileTag = "android_" + abs(session.myUserId.hashCode())
             var deviceDisplayName = session.sessionParams.deviceId
@@ -153,7 +162,7 @@ class PushHelper {
             // "https://chat.yunify.com/_matrix/client/r0/_matrix/push/v1/notify"
             val httpPusher = HttpPusher(
                     regId!!,
-                    "android_${AppCache.getPNS()}",
+                    "android_${this.getPNS()}",
                     profileTag,
                     locale.language,
                     BaseModule.getContext().getString(R.string.app_name),
@@ -183,7 +192,7 @@ class PushHelper {
         }
         runCatching {
             val session = activeSessionHolder.getSafeActiveSession() ?: return
-            val pushGateWay = NetConstant.getPushHost()
+            val pushGateWay = BaseModule.getContext().getString(R.string.pusher_http_url)
             if (TextUtils.isEmpty(pushGateWay)) return
             val profileTag = "android_" + abs(session.myUserId.hashCode())
             var deviceDisplayName = session.sessionParams.deviceId
@@ -194,7 +203,7 @@ class PushHelper {
             // "https://chat.yunify.com/_matrix/client/r0/_matrix/push/v1/notify"
             val httpPusher = HttpPusher(
                     pushClient?.regId!!,
-                    "android_${AppCache.getPNS()}",
+                    "android_${this.getPNS()}",
                     profileTag,
                     locale.language,
                     BaseModule.getContext().getString(R.string.app_name),
@@ -264,6 +273,12 @@ class PushHelper {
         } else pushClient?.regId
     }
 
+    fun getPNS(): String? {
+        return if (pushClient == null) {
+            null
+        } else pushClient?.pns
+    }
+
     fun setBadgeCount(context: Context?, count: Int) {
         if (pushClient == null) {
             return
@@ -310,7 +325,7 @@ class PushHelper {
     }
 
     fun clickNotification(context: Context) {
-        val intent = HomeActivity.newIntent(context,true)
+        val intent = HomeActivity.newIntent(context, true)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         context.startActivity(intent)
     }
@@ -335,6 +350,7 @@ class PushHelper {
 
         @JvmStatic
         fun getInstance() = INSTANCE ?: PushHelper().also { INSTANCE = it }
+
 
         /**
          * Used to force [getInstance] to create a new instance

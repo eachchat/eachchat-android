@@ -18,7 +18,7 @@ import timber.log.Timber
 class FirebasePush(context: Context?) : AbsPush(context) {
 
     var token : String? = null
-
+    var pns :String?=null
     @RequiresApi(Build.VERSION_CODES.N)
     override fun init(context: Context) {
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
@@ -33,6 +33,7 @@ class FirebasePush(context: Context?) : AbsPush(context) {
 
             // Get new FCM registration token
             token = task.result
+            pns="fcm"
             getInstance().bindDevice(token)
             Timber.i("push", "Fetching FCM registration token success token = $token")
         })
@@ -49,6 +50,13 @@ class FirebasePush(context: Context?) : AbsPush(context) {
 //        val token = FirebaseMessaging.getInstance().token
 //        return token.result
         return token
+    }
+
+
+    override fun getPNS(): String? {
+//        val token = FirebaseMessaging.getInstance().token
+//        return token.result
+        return pns
     }
 
     override fun setBadgeCount(context: Context?, count: Int) {
