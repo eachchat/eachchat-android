@@ -428,6 +428,76 @@
                 <action android:name="org.unifiedpush.android.distributor.REGISTER" />
             </intent-filter>
         </receiver>
+
+        <!-- HMS -->
+        <service
+            android:name=".eachchat.push.hwpush.HWMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- HMS end-->
+        <!-- firebase push Start -->
+        <service
+            android:name=".eachchat.push.firebase.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
+<!--            />-->
+<!--        &lt;!&ndash; Set color used with incoming notification messages. This is used when no color is set for the incoming-->
+<!--             notification message. See README(https://goo.gl/6BKBk7) for more. &ndash;&gt;-->
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_color"-->
+<!--            />-->
+        <!-- firebase push End -->
+        <!-- GeTui Start-->
+        <service
+            android:name="im.vector.app.eachchat.push.getui.GeTuiPushService"
+            android:exported="false"
+            android:label="PushService"
+            android:process=":pushservice"/>
+
+        <service
+            android:name="im.vector.app.eachchat.push.getui.GeTuiIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <!-- GeTui End-->
+
+        <!-- vivo push Start -->
+        <meta-data
+            android:name="com.vivo.push.api_key"
+            android:value="@string/vivo_appkey"/>
+
+        <meta-data
+            android:name="com.vivo.push.app_id"
+            android:value="@string/vivo_appid"/>
+
+        <!--Vivo Push需要配置的service、activity-->
+        <service
+            android:name="com.vivo.push.sdk.service.CommandClientService"
+            android:permission="com.push.permission.UPSTAGESERVICE"
+            android:exported="true"/>
+
+        <!--push应用定义消息receiver声明-->
+        <receiver android:name=".eachchat.push.vivo.PushMessageReceiverImpl"
+            android:exported="false">
+            <intent-filter>
+                <!--接收push消息-->
+                <action android:name="com.vivo.pushclient.action.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- vivo push end -->
     </application>
+    <!-- HuaWei Need -->
+    <queries>
+        <intent>
+            <action android:name="com.huawei.hms.core.aidlservice" />
+        </intent>
+    </queries>
 
 </manifest>

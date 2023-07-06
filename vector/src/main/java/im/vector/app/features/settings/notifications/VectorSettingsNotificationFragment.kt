@@ -146,13 +146,14 @@ class VectorSettingsNotificationFragment :
 
         findPreference<SwitchPreference>(VectorPreferences.SETTINGS_ENABLE_THIS_DEVICE_PREFERENCE_KEY)
                 ?.setOnPreferenceChangeListener { _, isChecked ->
-                    val action = if (isChecked as Boolean) {
-//                        VectorSettingsNotificationViewAction.EnableNotificationsForDevice(pushDistributor = "")
+                    if (isChecked as Boolean) {
+                        VectorSettingsNotificationViewAction.EnableNotificationsForDevice(pushDistributor = "")
                         PushHelper.getInstance().registerPusher()
                     } else {
-//                        VectorSettingsNotificationViewAction.DisableNotificationsForDevice
+                        VectorSettingsNotificationViewAction.DisableNotificationsForDevice
                         PushHelper.getInstance().unregisterPusher()
                         session.pushersService().refreshPushers()
+
                     }
 //                    viewModel.handle(action)
                     // preference will be updated on ViewEvent reception

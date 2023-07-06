@@ -366,4 +366,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:21.3.0'
     // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
     implementation 'io.reactivex.rxjava2:rxjava:2.0.0'
+
+    implementation fileTree(include: ['*.jar'],   dir: 'libs')
+
+    implementation   files("libs/vivo_pushSDK_v3.0.0.4_484.aar")
 }

@@ -31,6 +31,7 @@ import im.vector.app.eachchat.net.CloseableCoroutineScope
 import im.vector.app.eachchat.net.NetConstant
 import im.vector.app.eachchat.push.getui.GeTuiPush
 import im.vector.app.eachchat.push.hwpush.HWPush
+import im.vector.app.eachchat.push.vivo.VivoPush
 //import im.vector.app.eachchat.push.mipush.MiPush
 //import im.vector.app.eachchat.push.oppoPush.OppoPush
 //import im.vector.app.eachchat.push.vivo.VivoPush
@@ -67,6 +68,7 @@ class PushHelper {
             initClient(AppCache.getPNS())
             return
         }
+        val pns = AppCache.getPNS()
         val input = PNSInput()
         input.model = Build.MODEL
         input.brand = Build.BRAND
@@ -94,9 +96,11 @@ class PushHelper {
                 it.printStackTrace()
             }
         }
+        if (input.brand.equals("HUAWEI")){
+            initClient(pns)
+        }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun initClient(type: String) {
         if (pushClient != null) {
             Timber.v("已有通知客户端")
@@ -106,7 +110,7 @@ class PushHelper {
             TYPE_HMS       -> HWPush(BaseModule.getContext())
 //            TYPE_MIPUSH    -> MiPush(BaseModule.getContext())
 //            TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
-//            TYPE_VIVO_PUSH -> VivoPush(BaseModule.getContext())
+            TYPE_VIVO_PUSH -> VivoPush(BaseModule.getContext())
             TYPE_GETUI     -> GeTuiPush(BaseModule.getContext())
             TYPE_FIREBASE  -> FirebasePush(BaseModule.getContext())
             else           -> GeTuiPush(BaseModule.getContext())
@@ -126,7 +130,6 @@ class PushHelper {
     /**
      * bind the Matrix service and the push service through regId
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     fun bindDevice(regId: String?) {
         if (hasBind) {
             return
@@ -154,7 +157,7 @@ class PushHelper {
                     profileTag,
                     locale.language,
                     BaseModule.getContext().getString(R.string.app_name),
-                    deviceDisplayName!!,
+                    deviceDisplayName,
                     pushGateWay,
                     true,
                     "",//TODO 设备id
@@ -195,7 +198,7 @@ class PushHelper {
                     profileTag,
                     locale.language,
                     BaseModule.getContext().getString(R.string.app_name),
-                    deviceDisplayName!!,
+                    deviceDisplayName,
                     pushGateWay,
                     true,
                     "",//TODO 设备id

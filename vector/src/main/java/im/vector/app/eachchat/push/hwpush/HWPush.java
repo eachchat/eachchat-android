@@ -36,7 +36,9 @@ public class HWPush extends AbsPush {
             try {
                 String token = HmsInstanceId.getInstance(context)
                         .getToken(context.getString(R.string.huawei_push_appid), "HMS");
+                LogUtil.i("huapush token====",token);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    LogUtil.i("huapush token bind====",token);
                     PushHelper.getInstance().bindDevice(token);
                 }
             } catch (ApiException e) {
