@@ -469,12 +469,12 @@
 
         <!-- vivo push Start -->
         <meta-data
-            android:name="com.vivo.push.api_key"
-            android:value="@string/vivo_appkey"/>
+            android:name="api_key"
+            android:value="cc878ba88f29e64c6207d4467f65a5c8"/>
 
         <meta-data
-            android:name="com.vivo.push.app_id"
-            android:value="@string/vivo_appid"/>
+            android:name="app_id"
+            android:value="105476444"/>
 
         <!--Vivo Push需要配置的service、activity-->
         <service
@@ -483,7 +483,7 @@
             android:exported="true"/>
 
         <!--push应用定义消息receiver声明-->
-        <receiver android:name=".eachchat.push.vivo.PushMessageReceiverImpl"
+        <receiver android:name="im.vector.app.eachchat.push.vivo.PushMessageReceiverImpl"
             android:exported="false">
             <intent-filter>
                 <!--接收push消息-->

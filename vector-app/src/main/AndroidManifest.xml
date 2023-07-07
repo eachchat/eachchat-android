@@ -88,11 +88,11 @@
             android:value="890086000300380269"/>
 
         <meta-data
-            android:name="api_key"
+            android:name="com.vivo.push.api_key"
             android:value="cc878ba88f29e64c6207d4467f65a5c8"/>
 
         <meta-data
-            android:name="app_id"
+            android:name="com.vivo.push.app_id"
             android:value="105476444"/>
     </application>
     <queries>

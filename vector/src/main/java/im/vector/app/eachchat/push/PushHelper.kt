@@ -68,7 +68,12 @@ class PushHelper {
     fun init() {
         if (hasReg) {
             Timber.v("已注册通知")
-            initClient(AppCache.getPNS())
+            if (Build.BRAND.equals("HUAWEI")) {
+                initClient("huawei")
+            }
+            if (Build.BRAND.equals("VIVO")) {
+                initClient("vivo")
+            }
             return
         }
 //        val pns = AppCache.getPNS()
@@ -102,7 +107,7 @@ class PushHelper {
         if (input.brand.equals("HUAWEI")) {
             initClient("huawei")
         }
-        if (input.brand.equals("VIVO")) {
+        if (input.brand.lowercase().equals("vivo")) {
             initClient("vivo")
         }
     }

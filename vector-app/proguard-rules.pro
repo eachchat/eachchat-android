@@ -80,3 +80,12 @@
 # JNA
 -keep class com.sun.jna.** { *; }
 -keep class * implements com.sun.jna.** { *; }
+
+# vivo
+-dontwarn com.vivo.push.**
+
+-keep class com.vivo.push.**{*; }
+
+-keep class com.vivo.vms.**{*; }
+
+-keep class   im.vector.app.eachchat.push.vivo.PushMessageReceiverImpl{*;}
