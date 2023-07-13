@@ -32,6 +32,8 @@ import im.vector.app.eachchat.net.CloseableCoroutineScope
 import im.vector.app.eachchat.net.NetConstant
 import im.vector.app.eachchat.push.getui.GeTuiPush
 import im.vector.app.eachchat.push.hwpush.HWPush
+import im.vector.app.eachchat.push.mipush.MiPush
+import im.vector.app.eachchat.push.oppoPush.OppoPush
 import im.vector.app.eachchat.push.vivo.VivoPush
 //import im.vector.app.eachchat.push.mipush.MiPush
 //import im.vector.app.eachchat.push.oppoPush.OppoPush
@@ -70,9 +72,14 @@ class PushHelper {
             Timber.v("已注册通知")
             if (Build.BRAND.equals("HUAWEI")) {
                 initClient("huawei")
-            }
-            if (Build.BRAND.equals("VIVO")) {
+            }else if (Build.BRAND.lowercase().equals("vivo")) {
                 initClient("vivo")
+            }else if (Build.BRAND.lowercase().equals("oppo")) {
+                initClient("oppo")
+            }else if (Build.BRAND.lowercase().equals("xiaomi")||Build.BRAND.lowercase().equals("redmi")) {
+                initClient("xiaomi")
+            }else{
+                initClient("getui")
             }
             return
         }
@@ -106,9 +113,14 @@ class PushHelper {
         }
         if (input.brand.equals("HUAWEI")) {
             initClient("huawei")
-        }
-        if (input.brand.lowercase().equals("vivo")) {
+        }else if (input.brand.lowercase().equals("vivo")) {
             initClient("vivo")
+        }else if (Build.BRAND.lowercase().equals("oppo")) {
+            initClient("oppo")
+        }else if (Build.BRAND.lowercase().equals("xiaomi")||Build.BRAND.lowercase().equals("redmi")) {
+            initClient("xiaomi")
+        }else{
+            initClient("getui")
         }
     }
 
@@ -119,8 +131,8 @@ class PushHelper {
         }
         pushClient = when (type) {
             TYPE_HMS -> HWPush(BaseModule.getContext())
-//            TYPE_MIPUSH    -> MiPush(BaseModule.getContext())
-//            TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
+            TYPE_MIPUSH    -> MiPush(BaseModule.getContext())
+            TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
             TYPE_VIVO_PUSH -> VivoPush(BaseModule.getContext())
             TYPE_GETUI -> GeTuiPush(BaseModule.getContext())
             TYPE_FIREBASE -> FirebasePush(BaseModule.getContext())

@@ -16,60 +16,71 @@
 
 package im.vector.app.eachchat.push.mipush;
 
-//import android.content.Context;
-//
-//import com.facebook.stetho.common.LogUtil;
-//import com.xiaomi.mipush.sdk.MiPushClient;
-//
-//import im.vector.app.R;
-//import im.vector.app.eachchat.push.AbsPush;
-//
-///**
-// * Created by zhouguanjie on 2020/1/10.
-// */
-//public class MiPush extends AbsPush {
-//    private Context mContext;
-//
-//    public MiPush(Context context) {
-//        super(context);
-//        this.mContext = context;
-//    }
-//
-//    @Override
-//    public void init(Context context) {
-//        MiPushClient.registerPush(context,
-//                context.getString(R.string.mipush_appid),
-//                context.getString(R.string.mipush_appkey));
-//        LogUtil.i("## mi appId:" + context.getString(R.string.mipush_appid));
-//        MiPushClient.disablePush(context);
-//    }
-//
-//    @Override
-//    public void startPush() {
-//        LogUtil.i("## mi startPush");
-//        MiPushClient.enablePush(mContext);
-//    }
-//
-//    @Override
-//    public void stopPush() {
-//        LogUtil.i("## mi stopPush");
-//        MiPushClient.disablePush(mContext);
-//    }
-//
-//    @Override
-//    public String getRegId() {
-//        LogUtil.i("## mi getRegId = " + MiPushClient.getRegId(mContext));
-//        return MiPushClient.getRegId(mContext);
-//    }
-//
-//    @Override
-//    public void setBadgeCount(Context context, int count) {
-//
-//    }
-//
-//    @Override
-//    public void clearPush() {
-//        LogUtil.i("## mi clearNotification");
-//        MiPushClient.clearNotification(mContext);
-//    }
-//}
+import android.content.Context;
+
+import com.facebook.stetho.common.LogUtil;
+import com.xiaomi.mipush.sdk.MiPushClient;
+
+import im.vector.app.R;
+import im.vector.app.eachchat.push.AbsPush;
+import im.vector.app.eachchat.push.PushHelper;
+
+/**
+ * Created by zhouguanjie on 2020/1/10.
+ */
+public class MiPush extends AbsPush {
+    private Context mContext;
+    public String pns;
+
+    public MiPush(Context context) {
+        super(context);
+        this.mContext = context;
+    }
+
+    @Override
+    public void init(Context context) {
+        MiPushClient.registerPush(context,
+                context.getString(R.string.mipush_appid),
+                context.getString(R.string.mipush_appkey));
+        LogUtil.i("## mi appId:" + context.getString(R.string.mipush_appid));
+        MiPushClient.enablePush(mContext);
+        String regId = MiPushClient.getRegId(mContext);
+        LogUtil.i("## mi getRegId = " + regId);
+        PushHelper.getInstance().bindDevice(regId);
+        pns="xiaomi";
+    }
+
+    @Override
+    public void startPush() {
+        LogUtil.i("## mi startPush");
+        MiPushClient.enablePush(mContext);
+    }
+
+    @Override
+    public void stopPush() {
+        LogUtil.i("## mi stopPush");
+        MiPushClient.disablePush(mContext);
+    }
+
+    @Override
+    public String getRegId() {
+        LogUtil.i("## mi getRegId = " + MiPushClient.getRegId(mContext));
+        return MiPushClient.getRegId(mContext);
+    }
+
+    @Override
+    public String getPNS() {
+        return pns;
+    }
+
+    @Override
+    public void setBadgeCount(Context context, int count) {
+
+    }
+
+    @Override
+    public void clearPush() {
+        LogUtil.i("## mi clearNotification");
+        MiPushClient.clearNotification(mContext);
+    }
+}
