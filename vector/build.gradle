@@ -199,7 +199,7 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation libs.androidx.autoFill
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'com.github.hyuwah:DraggableView:1.0.0'
+    implementation 'com.github.hyuwah:DraggableView:1.0.1'
 
     // Custom Tab
     implementation 'androidx.browser:browser:1.5.0'
