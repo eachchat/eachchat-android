@@ -74,36 +74,44 @@ class FtueAuthSplashCarouselFragment :
     }
 
     private fun setupViews() {
-        val carouselAdapter = carouselController.adapter
-        views.splashCarousel.adapter = carouselAdapter
-        tabLayoutMediator = TabLayoutMediator(views.carouselIndicator, views.splashCarousel) { _, _ -> }
-                .also { it.attach() }
+          alreadyHaveAnAccount()
+          views.loginSplashSubmit.apply {
+             isVisible = false
+          }
+          views.loginSplashAlreadyHaveAccount.apply {
+            isVisible = false
+          }
 
-        carouselController.setData(carouselStateFactory.create())
-        //TODO 这里是控制注册和已有账号显隐的地方，isAlreadyHaveAccountEnabled 直接=false
-//        val isAlreadyHaveAccountEnabled = vectorFeatures.isOnboardingAlreadyHaveAccountSplashEnabled()
-        val isAlreadyHaveAccountEnabled = false
-        views.loginSplashSubmit.apply {
-            setText(if (false) R.string.login_splash_create_account else R.string.login_splash_submit)
-//            debouncedClicks { splashSubmit(isAlreadyHaveAccountEnabled) }
-            //TODO 这里跳过选择服务器直接进入登陆主界面
-            debouncedClicks { alreadyHaveAnAccount() }
-        }
-        views.loginSplashAlreadyHaveAccount.apply {
-            isVisible = isAlreadyHaveAccountEnabled
-            debouncedClicks { alreadyHaveAnAccount() }
-        }
-
-        if (buildMeta.isDebug || vectorPreferences.developerMode()) {
-            views.loginSplashVersion.isVisible = true
-            @SuppressLint("SetTextI18n")
-            views.loginSplashVersion.text = "Version : ${buildMeta.versionName}\n" +
-                    "Branch: ${buildMeta.gitBranchName} ${buildMeta.gitRevision}"
-            views.loginSplashVersion.debouncedClicks { navigator.openDebug(requireContext()) }
-        }
-        views.splashCarousel.registerAutomaticUntilInteractionTransitions()
-        //TODO 这里控制创建账号和版本的显隐问题
-        views.loginSplashVersion.visibility = View.INVISIBLE
+//        val carouselAdapter = carouselController.adapter
+//        views.splashCarousel.adapter = carouselAdapter
+//        tabLayoutMediator = TabLayoutMediator(views.carouselIndicator, views.splashCarousel) { _, _ -> }
+//                .also { it.attach() }
+//
+//        carouselController.setData(carouselStateFactory.create())
+//        //TODO 这里是控制注册和已有账号显隐的地方，isAlreadyHaveAccountEnabled 直接=false
+////        val isAlreadyHaveAccountEnabled = vectorFeatures.isOnboardingAlreadyHaveAccountSplashEnabled()
+//        val isAlreadyHaveAccountEnabled = false
+//        views.loginSplashSubmit.apply {
+//            setText(if (false) R.string.login_splash_create_account else R.string.login_splash_submit)
+////            debouncedClicks { splashSubmit(isAlreadyHaveAccountEnabled) }
+//            //TODO 这里跳过选择服务器直接进入登陆主界面
+//            debouncedClicks { alreadyHaveAnAccount() }
+//        }
+//        views.loginSplashAlreadyHaveAccount.apply {
+//            isVisible = isAlreadyHaveAccountEnabled
+//            debouncedClicks { alreadyHaveAnAccount() }
+//        }
+//
+//        if (buildMeta.isDebug || vectorPreferences.developerMode()) {
+//            views.loginSplashVersion.isVisible = true
+//            @SuppressLint("SetTextI18n")
+//            views.loginSplashVersion.text = "Version : ${buildMeta.versionName}\n" +
+//                    "Branch: ${buildMeta.gitBranchName} ${buildMeta.gitRevision}"
+//            views.loginSplashVersion.debouncedClicks { navigator.openDebug(requireContext()) }
+//        }
+//        views.splashCarousel.registerAutomaticUntilInteractionTransitions()
+//        //TODO 这里控制创建账号和版本的显隐问题
+//        views.loginSplashVersion.visibility = View.INVISIBLE
     }
 
     private fun ViewPager2.registerAutomaticUntilInteractionTransitions() {
