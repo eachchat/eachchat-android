@@ -332,10 +332,10 @@ class VectorSettingsNotificationFragment :
             it.isEnabled = backgroundSyncEnabled
             it.summary = secondsToText(vectorPreferences.backgroundSyncDelay())
         }
-        when {
-            backgroundSyncEnabled -> guardServiceStarter.start()
-            else -> guardServiceStarter.stop()
-        }
+//        when {
+//            backgroundSyncEnabled -> guardServiceStarter.start()
+//            else -> guardServiceStarter.stop()
+//        }
     }
 
     /**

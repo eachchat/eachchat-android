@@ -62,6 +62,7 @@ class PushHelper {
     private var pushClient: AbsPush? = null
     private var hasReg = false
     private var hasBind = false
+    private var brand = ""
 
     private val scope: CloseableCoroutineScope by lazy { CloseableCoroutineScope() }
     var retryCount = 0 //
@@ -83,7 +84,7 @@ class PushHelper {
             }
             return
         }
-//        val pns = AppCache.getPNS()
+
         val input = PNSInput()
         input.model = Build.MODEL
         input.brand = Build.BRAND
@@ -122,6 +123,8 @@ class PushHelper {
         }else{
             initClient("getui")
         }
+
+        brand = input.brand
     }
 
     private fun initClient(type: String) {
@@ -150,6 +153,11 @@ class PushHelper {
         }
     }
 
+    fun getBrand(): String {
+        return brand.lowercase()
+    }
+
+
     /**
      * bind the Matrix service and the push service through regId
      */
@@ -168,6 +176,7 @@ class PushHelper {
             if (session == null) {
                 return
             }
+
             val pushGateWay = BaseModule.getContext().getString(R.string.pusher_http_url)
             if (TextUtils.isEmpty(pushGateWay)) return
             val profileTag = "android_" + abs(session.myUserId.hashCode())
