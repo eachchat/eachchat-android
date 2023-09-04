@@ -25,7 +25,7 @@ jobs:
       group: ${{ github.ref == 'refs/heads/main' && format('unit-tests-main-rust-{0}', github.sha) || github.ref == 'refs/heads/develop' && format('unit-tests-develop-rust-{0}', github.sha) || format('unit-tests-rust-{0}', github.ref) }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           lfs: true
           fetch-depth: 0
