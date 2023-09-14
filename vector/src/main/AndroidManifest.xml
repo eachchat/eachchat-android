@@ -393,13 +393,13 @@
         A media button receiver receives and helps translate hardware media playback buttons,
         such as those found on wired and wireless headsets, into the appropriate callbacks in your app.
            -->
-        <receiver
-            android:name="androidx.media.session.MediaButtonReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name="androidx.media.session.MediaButtonReceiver"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MEDIA_BUTTON" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
         <!-- UnifiedPush -->
         <receiver
@@ -438,33 +438,17 @@
             </intent-filter>
         </service>
         <!-- HMS end-->
-        <!-- firebase push Start -->
-        <service
-            android:name=".eachchat.push.firebase.MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <!--        <meta-data-->
-        <!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
-        <!--            />-->
-        <!--        &lt;!&ndash; Set color used with incoming notification messages. This is used when no color is set for the incoming-->
-        <!--             notification message. See README(https://goo.gl/6BKBk7) for more. &ndash;&gt;-->
-        <!--        <meta-data-->
-        <!--            android:name="com.google.firebase.messaging.default_notification_color"-->
-        <!--            />-->
-        <!-- firebase push End -->
-        <!-- GeTui Start-->
-        <service
-            android:name="im.vector.app.eachchat.push.getui.GeTuiPushService"
-            android:exported="false"
-            android:label="PushService"
-            android:process=":pushservice" />
 
-        <service
-            android:name="im.vector.app.eachchat.push.getui.GeTuiIntentService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <!-- GeTui Start-->
+<!--        <service-->
+<!--            android:name="im.vector.app.eachchat.push.getui.GeTuiPushService"-->
+<!--            android:exported="false"-->
+<!--            android:label="PushService"-->
+<!--            android:process=":pushservice" />-->
+
+<!--        <service-->
+<!--            android:name="im.vector.app.eachchat.push.getui.GeTuiIntentService"-->
+<!--            android:permission="android.permission.BIND_JOB_SERVICE" />-->
         <!-- GeTui End-->
 
         <!-- vivo push Start -->
@@ -548,14 +532,14 @@
             android:name="com.xiaomi.mipush.sdk.MessageHandleService"
             android:enabled="true" />
 
-        <receiver
-            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
         <receiver
             android:name="com.xiaomi.push.service.receivers.PingReceiver"
@@ -581,6 +565,25 @@
             </intent-filter>
         </receiver>
         <!-- MiPush End -->
+
+        <!-- firebase push Start -->
+        <service
+            android:name=".eachchat.push.firebase.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!--        <meta-data-->
+        <!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
+        <!--            />-->
+        <!--        &lt;!&ndash; Set color used with incoming notification messages. This is used when no color is set for the incoming-->
+        <!--             notification message. See README(https://goo.gl/6BKBk7) for more. &ndash;&gt;-->
+        <!--        <meta-data-->
+        <!--            android:name="com.google.firebase.messaging.default_notification_color"-->
+        <!--            />-->
+        <!-- firebase push End -->
+
         <!-- getui       -->
         <service
             android:name="im.vector.app.eachchat.push.getui.PushService"
@@ -590,6 +593,7 @@
         <service android:name="im.vector.app.eachchat.push.getui.IntentService" />
     </application>
     <!-- HuaWei Need -->
+
     <queries>
         <intent>
             <action android:name="com.huawei.hms.core.aidlservice" />
