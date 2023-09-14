@@ -92,26 +92,26 @@ class PushHelper {
         input.sdk = Build.VERSION.SDK_INT.toString()
         input.osVersion = Build.VERSION.RELEASE
         input.rom = RomUtils.getRom() // room is a push identifier, used to determine which push to use
-        scope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                val response = ApiService.getInstance().getPNS(input)
-                scope.launch(Dispatchers.Main) {
-                    if (response.isSuccess && response.obj != null && !TextUtils.isEmpty(response.obj!!.pns)) {
-                        AppCache.setPns(response.obj!!.pns)
-                        hasReg = true
-                        hasBind = false
-                        initClient(AppCache.getPNS())
-                    } else {
-                        if (!TextUtils.isEmpty(AppCache.getPNS())) {
-                            initClient(AppCache.getPNS())
-                        }
-                    }
-                }
-            }.exceptionOrNull()?.let {
-                Timber.v("获取通知PNS异常")
-                it.printStackTrace()
-            }
-        }
+//        scope.launch(Dispatchers.IO) {
+//            kotlin.runCatching {
+//                val response = ApiService.getInstance().getPNS(input)
+//                scope.launch(Dispatchers.Main) {
+//                    if (response.isSuccess && response.obj != null && !TextUtils.isEmpty(response.obj!!.pns)) {
+//                        AppCache.setPns(response.obj!!.pns)
+//                        hasReg = true
+//                        hasBind = false
+//                        initClient(AppCache.getPNS())
+//                    } else {
+//                        if (!TextUtils.isEmpty(AppCache.getPNS())) {
+//                            initClient(AppCache.getPNS())
+//                        }
+//                    }
+//                }
+//            }.exceptionOrNull()?.let {
+//                Timber.v("获取通知PNS异常")
+//                it.printStackTrace()
+//            }
+//        }
         if (input.brand.equals("HUAWEI")) {
             initClient("huawei")
         }else if (input.brand.lowercase().equals("vivo")) {
@@ -145,7 +145,7 @@ class PushHelper {
             pushClient?.init(BaseModule.getContext())
             pushClient?.startPush()
             clearNotification()
-//            bindDevice(pushClient?.regId)
+            bindDevice(pushClient?.regId)
             Timber.v("通知初始化完成")
         } catch (e: Exception) {
             Timber.v("通知初始化异常")
@@ -186,6 +186,9 @@ class PushHelper {
             }
             val locale = BaseModule.getContext().resources.configuration.locales[0]
             // "https://chat.yunify.com/_matrix/client/r0/_matrix/push/v1/notify"
+            if (this.getPNS() == null || this.getPNS().equals("null")){
+                return
+            }
             val httpPusher = HttpPusher(
                     regId!!,
                     "android_${this.getPNS()}",
@@ -213,39 +216,8 @@ class PushHelper {
         if (hasBind) {
             return
         }
-        if (TextUtils.isEmpty(pushClient?.regId)) {
-            return
-        }
-        runCatching {
-            val session = activeSessionHolder.getSafeActiveSession() ?: return
-            val pushGateWay = BaseModule.getContext().getString(R.string.pusher_http_url)
-            if (TextUtils.isEmpty(pushGateWay)) return
-            val profileTag = "android_" + abs(session.myUserId.hashCode())
-            var deviceDisplayName = session.sessionParams.deviceId
-            if (TextUtils.isEmpty(deviceDisplayName)) {
-                deviceDisplayName = "Android Mobile"
-            }
-            val locale = BaseModule.getContext().resources.configuration.locales[0]
-            // "https://chat.yunify.com/_matrix/client/r0/_matrix/push/v1/notify"
-            val httpPusher = HttpPusher(
-                    pushClient?.regId!!,
-                    "android_${this.getPNS()}",
-                    profileTag,
-                    locale.language,
-                    BaseModule.getContext().getString(R.string.app_name),
-                    deviceDisplayName,
-                    pushGateWay,
-                    true,
-                    "",//TODO 设备id
-                    append = false,
-                    withEventIdOnly = false
-            )
-            scope.launch {
 
-                session.pushersService().addHttpPusher(httpPusher)
-                hasBind = true
-            }
-        }.exceptionOrNull()?.printStackTrace()
+        init()
     }
 
     fun unregisterPusher() {

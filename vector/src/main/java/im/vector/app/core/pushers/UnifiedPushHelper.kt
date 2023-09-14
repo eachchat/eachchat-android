@@ -50,10 +50,10 @@ class UnifiedPushHelper @Inject constructor(
             "HUAWEI"
         } else if (isXIAOMI()) {
             "XIAOMI"
-        } /* else if (isOPPO()) {
-            "OPPO"
-        } */else if (isVIVO()) {
-            "VIVO"
+//         } else if (isOPPO()) {
+//            "OPPO"
+//        } else if (isVIVO()) {
+//            "VIVO"
         } else if (fcmHelper.isFirebaseAvailable()) {
             stringProvider.getString(R.string.unifiedpush_distributor_fcm_fallback)
         } else {
@@ -142,7 +142,7 @@ class UnifiedPushHelper @Inject constructor(
         return when {
             isHUAWEI() -> "HUAWEI"
             isXIAOMI() -> "XIAOMI"
-            isVIVO() -> "VIVO"
+//            isVIVO() -> "VIVO"
 //            isOPPO() -> "OPPO"
             isEmbeddedDistributor() -> stringProvider.getString(R.string.unifiedpush_distributor_fcm_fallback)
             isBackgroundSync() -> stringProvider.getString(R.string.unifiedpush_distributor_background_sync)
@@ -153,17 +153,17 @@ class UnifiedPushHelper @Inject constructor(
     fun isEmbeddedDistributor(): Boolean {
         return isInternalDistributor() && fcmHelper.isFirebaseAvailable() &&
                 !isHUAWEI() &&
-                !isOPPO() &&
-                !isXIAOMI() &&
-                !isVIVO()
+//                !isOPPO() &&
+                !isXIAOMI() //&&
+//                !isVIVO()
     }
 
     fun isBackgroundSync(): Boolean {
         return isInternalDistributor() && !fcmHelper.isFirebaseAvailable() &&
                 !isHUAWEI() &&
-                !isOPPO() &&
-                !isXIAOMI() &&
-                !isVIVO()
+//                !isOPPO() &&
+                !isXIAOMI() //&&
+//                !isVIVO()
     }
 
     fun isHUAWEI(): Boolean {
@@ -174,13 +174,13 @@ class UnifiedPushHelper @Inject constructor(
         return PushHelper.getInstance().getBrand().equals("xiaomi") || PushHelper.getInstance().getBrand().equals("redmi")
     }
 
-    fun isVIVO(): Boolean {
-        return PushHelper.getInstance().getBrand().equals("vivo")
-    }
-
-    fun isOPPO(): Boolean {
-        return PushHelper.getInstance().getBrand().equals("oppo")
-    }
+//    fun isVIVO(): Boolean {
+//        return PushHelper.getInstance().getBrand().equals("vivo")
+//    }
+//
+//    fun isOPPO(): Boolean {
+//        return PushHelper.getInstance().getBrand().equals("oppo")
+//    }
 
 
     private fun isInternalDistributor(): Boolean {

@@ -69,18 +69,34 @@ class FtueAuthSplashCarouselFragment :
     override fun onDestroyView() {
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
-        views.splashCarousel.adapter = null
+//        views.splashCarousel.adapter = null
         super.onDestroyView()
     }
 
     private fun setupViews() {
-          alreadyHaveAnAccount()
-          views.loginSplashSubmit.apply {
-             isVisible = false
-          }
-          views.loginSplashAlreadyHaveAccount.apply {
-            isVisible = false
-          }
+        views.privacyPolicyWebView.apply {
+            isVisible = true
+            loadUrl("file:///android_asset/privacy-policy.html")
+        }
+
+        views.loginSplashContinue.apply {
+            isVisible = true
+            setText(R.string.action_agree)
+            debouncedClicks { alreadyHaveAnAccount() }
+        }
+
+        views.loginLogout.apply {
+            isVisible = true
+            setText(R.string.action_reject)
+            debouncedClicks {
+                System.exit(0)
+            }
+        }
+
+
+//          views.loginSplashAlreadyHaveAccount.apply {
+//            isVisible = false
+//          }
 
 //        val carouselAdapter = carouselController.adapter
 //        views.splashCarousel.adapter = carouselAdapter
