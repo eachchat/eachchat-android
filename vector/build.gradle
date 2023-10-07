@@ -91,7 +91,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "18"
+        jvmTarget = "17"
         freeCompilerArgs += [
                 "-opt-in=kotlin.RequiresOptIn",
                 // Fixes false positive "This is an internal Mavericks API. It is not intended for external use."
@@ -121,7 +121,6 @@ android {
 apply from: '../flavor.gradle'
 
 dependencies {
-
     implementation project(":vector-config")
     api project(":matrix-sdk-android")
     implementation project(":matrix-sdk-android-flow")
@@ -369,9 +368,9 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'],   dir: 'libs')
 
-    implementation   files("libs/vivo_pushSDK_v3.0.0.4_484.aar")
+//    implementation   files("libs/vivo_pushSDK_v3.0.0.4_484.aar")
     // oppo
-    implementation files('libs/com.heytap.msp_3.1.0.aar')
+//    implementation files('libs/com.heytap.msp_3.1.0.aar')
 
 //以下依赖都需要添加
     implementation 'com.google.code.gson:gson:2.6.2'
@@ -379,7 +378,10 @@ dependencies {
     implementation 'com.android.support:support-annotations:28.0.0'
 
     // xiaomi
-    implementation files('libs/MiPush_SDK_Client_5_7_8-C_3rd.aar')
+//    implementation files('libs/MiPush_SDK_Client_5_7_8-C_3rd.aar')
+    implementation project(path: ':xiaomipush')
+    implementation project(path: ':vivopush')
+    implementation project(path: ':heytap')
     // 个推
     implementation 'com.getui:gtsdk:3.2.18.0'  //个推SDK
     implementation 'com.getui:gtc:3.2.6.0'  //个推核心组件

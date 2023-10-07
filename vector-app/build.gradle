@@ -32,12 +32,12 @@ knit {
 }
 
 // Note: 2 digits max for each value
-ext.versionMajor = 1
-ext.versionMinor = 6
+ext.versionMajor = 3
+ext.versionMinor = 0
 // Note: even values are reserved for regular release, odd values for hotfix release.
 // When creating a hotfix, you should decrease the value, since the current value
 // is the value for the next regular release.
-ext.versionPatch = 3
+ext.versionPatch = 5
 
 static def getGitTimestamp() {
     def cmd = 'git show -s --format=%ct'
@@ -106,7 +106,7 @@ static def getGplayVersionSuffix() {
     if (gitBranchName() == "main") {
         return ""
     } else {
-        return "-dev"
+        return ""
     }
 }
 
@@ -118,7 +118,7 @@ static def gitTag() {
 // For F-Droid build, build on a not tagged commit will have a "-dev" suffix
 static def getFdroidVersionSuffix() {
     if (gitTag() == "") {
-        return "-dev"
+        return ""
     } else {
         return ""
     }
@@ -240,7 +240,7 @@ android {
 //            storePassword 'android'
             keyAlias 'ai.workly.yql.android'
             keyPassword 'zhu88jie'
-            storeFile file('/Users/vvlgo/AndroidProjects/keys/yql-android-signature.jks')
+            storeFile file('/Users/wenttang/workspace/eachchat-android/gradle/yql-android-signature.jks')
             storePassword 'Zhu88jie'
         }
         nightly {
@@ -250,7 +250,7 @@ android {
 //            storePassword System.env.ELEMENT_ANDROID_NIGHTLY_STOREPASSWORD ?: project.property("signing.element.nightly.storePassword")
             keyAlias 'ai.workly.yql.android'
             keyPassword 'zhu88jie'
-            storeFile file('/Users/vvlgo/AndroidProjects/keys/yql-android-signature.jks')
+            storeFile file('/Users/wenttang/workspace/eachchat-android/gradle/yql-android-signature.jks')
             storePassword 'Zhu88jie'
         }
         release {
@@ -263,7 +263,7 @@ android {
 
     buildTypes {
         debug {
-            resValue "string", "app_name", "EachChat"
+            resValue "string", "app_name", "亿洽"
             postprocessing {
                 // FIXME Set to true.
                 removeUnusedCode false
@@ -276,7 +276,7 @@ android {
         }
 
         release {
-            resValue "string", "app_name", "EachChat"
+            resValue "string", "app_name", "亿洽"
             postprocessing {
                 // FIXME Set to true.
                 removeUnusedCode false
@@ -393,7 +393,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "18"
+        jvmTarget = "17"
         freeCompilerArgs += [
                 "-opt-in=kotlin.RequiresOptIn",
                 // Fixes false positive "This is an internal Mavericks API. It is not intended for external use."
@@ -475,8 +475,8 @@ dependencies {
     debugImplementation libs.androidx.fragmentTestingManifest
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
     // 个推
-    implementation 'com.getui:gtsdk:3.2.18.0'  //个推SDK
-    implementation 'com.getui:gtc:3.2.6.0'  //个推核心组件
+//    implementation 'com.getui:gtsdk:3.2.18.0'  //个推SDK
+//    implementation 'com.getui:gtc:3.2.6.0'  //个推核心组件
     // 华为
     implementation 'com.huawei.hms:push:6.9.0.300'
 
