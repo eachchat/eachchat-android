@@ -128,9 +128,9 @@ allprojects {
                 groups.mavenSnapshots.group.each { includeGroup it }
             }
         }
-        maven {
-            url "https://mvn.getui.com/nexus/content/repositories/releases/"
-        }
+//        maven {
+//            url "https://mvn.getui.com/nexus/content/repositories/releases/"
+//        }
         //华为
         maven {url 'https://developer.huawei.com/repo/'}
         mavenCentral()

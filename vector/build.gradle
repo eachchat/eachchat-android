@@ -91,7 +91,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "18"
         freeCompilerArgs += [
                 "-opt-in=kotlin.RequiresOptIn",
                 // Fixes false positive "This is an internal Mavericks API. It is not intended for external use."
@@ -377,6 +377,6 @@ dependencies {
     implementation project(path: ':vivopush')
     implementation project(path: ':heytap')
     // 个推
-    implementation 'com.getui:gtsdk:3.2.18.0'  //个推SDK
-    implementation 'com.getui:gtc:3.2.6.0'  //个推核心组件
+//    implementation 'com.getui:gtsdk:3.2.18.0'  //个推SDK
+//    implementation 'com.getui:gtc:3.2.6.0'  //个推核心组件
 }
