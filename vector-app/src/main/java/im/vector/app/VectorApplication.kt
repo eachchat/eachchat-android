@@ -25,6 +25,7 @@ import android.content.res.Configuration
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.StrictMode
+import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import androidx.core.provider.FontRequest
@@ -41,6 +42,9 @@ import com.airbnb.mvrx.Mavericks
 import com.facebook.stetho.Stetho
 import com.gabrielittner.threetenbp.LazyThreeTen
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper
+import com.huawei.hms.aaid.HmsInstanceId
+import com.huawei.hms.common.ApiException
+//import com.igexin.sdk.PushManager
 import com.mapbox.mapboxsdk.Mapbox
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
@@ -51,6 +55,7 @@ import im.vector.app.core.debug.LeakDetector
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.pushers.FcmHelper
 import im.vector.app.core.resources.BuildMeta
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.analytics.VectorAnalytics
 import im.vector.app.features.call.webrtc.WebRtcCallManager
 import im.vector.app.features.configuration.VectorConfiguration
@@ -125,6 +130,7 @@ class VectorApplication :
         enableStrictModeIfNeeded()
         super.onCreate()
         appContext = this
+        BaseModule.init(this)
         flipperProxy.init(matrix)
         vectorAnalytics.init()
         invitesAcceptor.initialize()
@@ -166,6 +172,13 @@ class VectorApplication :
 
         notificationUtils.createNotificationChannels()
 
+        if (authenticationService.hasAuthenticatedSessions() && !activeSessionHolder.hasActiveSession()) {
+            val lastAuthenticatedSession = authenticationService.getLastAuthenticatedSession()!!
+            activeSessionHolder.setActiveSession(lastAuthenticatedSession)
+            BaseModule.setSession(lastAuthenticatedSession)
+//            lastAuthenticatedSession.configureAndStart(applicationContext, startSyncing = false)
+        }
+
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onResume(owner: LifecycleOwner) {
                 Timber.i("App entered foreground")
@@ -201,6 +214,16 @@ class VectorApplication :
         Mapbox.getInstance(this)
 
         initMemoryLeakAnalysis()
+//        // getui
+//        PushManager.getInstance().initialize(appContext)
+//        PushManager.getInstance().setDebugLogger(this) { s -> Timber.d("PUSH_LOG", s) }
+//        try {
+//            PushManager.getInstance().checkManifest(this)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//        //华为
+//        getToken()
     }
 
     private fun configureEpoxy() {
@@ -270,5 +293,33 @@ class VectorApplication :
 
     private fun initMemoryLeakAnalysis() {
         leakDetector.enable(vectorPreferences.isMemoryLeakAnalysisEnabled())
+    }
+
+    private fun getToken() {
+        // 创建一个新线程
+        object : Thread() {
+            override fun run() {
+                try {
+                    // 从agconnect-services.json文件中读取APP_ID
+                    val appId = "103371193"
+
+                    // 输入token标识"HCM"
+                    val tokenScope = "HMS"
+                    val token = HmsInstanceId.getInstance(this@VectorApplication).getToken(appId, tokenScope)
+                    Timber.d("VectorApplication-huawei", "get token:$token")
+
+                    // 判断token是否为空
+                    if (!TextUtils.isEmpty(token)) {
+                        sendRegTokenToServer(token)
+                    }
+                } catch (e: ApiException) {
+                    Timber.d("VectorApplication-huawei", "get token failed, $e")
+                }
+            }
+        }.start()
+    }
+
+    private fun sendRegTokenToServer(token: String?) {
+        Timber.d("VectorApplication-huawei", "sending token to server. token:$token")
     }
 }

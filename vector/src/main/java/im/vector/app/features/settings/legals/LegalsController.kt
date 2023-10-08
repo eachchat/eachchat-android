@@ -46,7 +46,7 @@ class LegalsController @Inject constructor(
 
     override fun buildModels(data: LegalsState) {
         buildAppSection()
-        buildHomeserverSection(data)
+//        buildHomeserverSection(data)
         buildIdentityServerSection(data)
         buildThirdPartyNotices()
     }

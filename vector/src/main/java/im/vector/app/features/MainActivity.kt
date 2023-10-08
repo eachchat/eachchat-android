@@ -36,6 +36,7 @@ import im.vector.app.core.extensions.vectorStore
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.core.utils.deleteAllFiles
 import im.vector.app.databinding.ActivityMainBinding
+import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.analytics.VectorAnalytics
 import im.vector.app.features.analytics.plan.ViewRoom
 import im.vector.app.features.home.HomeActivity
@@ -147,6 +148,10 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
         }
 
         startAppViewModel.handle(StartAppAction.StartApp)
+        args = parseArgs()
+        if (args.clearCredentials || args.isUserLoggedOut || args.clearCache) {
+            clearNotifications()
+        }
     }
 
     private fun renderState(state: StartAppViewState) {
@@ -221,6 +226,8 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
     }
 
     private fun clearNotifications() {
+        PushHelper.getInstance().clearNotification()
+        PushHelper.getInstance().logout()
         // Dismiss all notifications
         notificationDrawerManager.clearAllEvents()
 

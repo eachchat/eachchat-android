@@ -4,7 +4,8 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.devtools.ksp'
 apply plugin: 'dagger.hilt.android.plugin'
-
+//华为
+apply plugin: 'com.huawei.agconnect'
 if (project.hasProperty("coverage")) {
     apply plugin: 'jacoco'
 }
@@ -46,9 +47,19 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86", 'arm64-v8a', 'x86_64'
         }
-
+        resValue("string" , "mipush_appid","2882303761518807958")
+        resValue("string" , "mipush_appkey","5501880794958")
+        resValue("string" , "huawei_push_appid","103371193")
+        resValue("string" , "oppo_appid","30410173")
+        resValue("string" , "oppo_appkey","9ad17576990e47f5800f6c4963e92ff8")
+        resValue("string" , "oppo_secret","11a585618b6140f5afbc87a5582df028")
+        resValue("string" , "vivo_appid","105476444")
+        resValue("string" , "vivo_appkey","cc878ba88f29e64c6207d4467f65a5c8")
         // Generate a random app task affinity
-        manifestPlaceholders = [appTaskAffinitySuffix: "H_${gitRevision()}"]
+        manifestPlaceholders = [
+                appTaskAffinitySuffix: "H_${gitRevision()}",
+                GETUI_APPID       : "jGoXrHRZkEACkLhdVwGyn6",
+        ]
 
         // The following argument makes the Android Test Orchestrator run its
         // "pm clear" command after each test invocation. This command ensures
@@ -80,7 +91,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
         freeCompilerArgs += [
                 "-opt-in=kotlin.RequiresOptIn",
                 // Fixes false positive "This is an internal Mavericks API. It is not intended for external use."
@@ -110,7 +121,6 @@ android {
 apply from: '../flavor.gradle'
 
 dependencies {
-
     implementation project(":vector-config")
     api project(":matrix-sdk-android")
     implementation project(":matrix-sdk-android-flow")
@@ -330,4 +340,43 @@ dependencies {
     debugImplementation libs.androidx.fragmentTestingManifest
     androidTestImplementation libs.androidx.fragmentTesting
     androidTestImplementation "org.jetbrains.kotlin:kotlin-reflect:1.8.21"
+
+    // 华为
+    implementation 'com.huawei.hms:push:6.9.0.300'
+    // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
+    implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.21'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation 'androidx.databinding:databinding-common:4.2.2'
+    implementation 'androidx.databinding:databinding-adapters:4.2.2'
+    // https://mvnrepository.com/artifact/com.blankj/utilcode
+    implementation 'com.blankj:utilcode:1.30.7'
+// https://mvnrepository.com/artifact/com.google.firebase/firebase-messaging
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+// https://mvnrepository.com/artifact/com.google.firebase/firebase-analytics
+    implementation 'com.google.firebase:firebase-analytics:21.3.0'
+    // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.0'
+
+    implementation fileTree(include: ['*.jar'],   dir: 'libs')
+
+//    implementation   files("libs/vivo_pushSDK_v3.0.0.4_484.aar")
+    // oppo
+//    implementation files('libs/com.heytap.msp_3.1.0.aar')
+
+//以下依赖都需要添加
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'commons-codec:commons-codec:1.6'
+    implementation 'com.android.support:support-annotations:28.0.0'
+
+    // xiaomi
+//    implementation files('libs/MiPush_SDK_Client_5_7_8-C_3rd.aar')
+    implementation project(path: ':xiaomipush')
+    implementation project(path: ':vivopush')
+    implementation project(path: ':heytap')
+    // 个推
+    implementation 'com.getui:gtsdk:3.2.18.0'  //个推SDK
+    implementation 'com.getui:gtc:3.2.6.0'  //个推核心组件
 }
