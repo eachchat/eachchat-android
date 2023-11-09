@@ -1,10 +1,14 @@
 package im.vector.app.eachchat.push.oppoPush;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Color;
 
 import com.facebook.stetho.common.LogUtil;
 import com.heytap.msp.push.HeytapPushManager;
 import com.heytap.msp.push.callback.ICallBackResultService;
+import com.heytap.msp.push.notification.PushNotificationManager;
 
 import im.vector.app.R;
 import im.vector.app.eachchat.push.AbsPush;
@@ -26,6 +30,8 @@ public class OppoPush extends AbsPush {
                 context.getString(R.string.oppo_secret), new ICallBackResultService() {
                     @Override
                     public void onRegister(int responseCode, String registerID) {
+                        this.setUpNotificationChannels(context);
+
                         pns="oppo";
                         // 注册的结果,如果注册成功,registerID就是客户端的唯一身份标识
                         LogUtil.i("## oppo onRegister responseCode = " + responseCode + " registerID = " + registerID);
@@ -63,7 +69,23 @@ public class OppoPush extends AbsPush {
                         // 错误码返回的接口(当前主要是用于调用频繁的回调，后续可做拓展)
                         LogUtil.i("## oppo onError");
                     }
+
+                    public void setUpNotificationChannels(Context context) {
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            NotificationChannel channel = new NotificationChannel("oppopush","即时消息",NotificationManager.IMPORTANCE_HIGH);
+                            channel.setDescription("即时消息推送通道");
+                            // 设置桌面角标
+                            channel.enableLights(true);
+                            // 角标颜色
+                            channel.setLightColor(Color.RED);
+                            // 长按图标显示显示通道明细
+                            channel.setShowBadge(true);
+                            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+                            notificationManager.createNotificationChannel(channel);
+                        }
+                    }
                 });
+
     }
 
     @Override
@@ -75,7 +97,7 @@ public class OppoPush extends AbsPush {
     @Override
     public void stopPush() {
         LogUtil.i("## oppo stopPush");
-        HeytapPushManager.pausePush();
+//        HeytapPushManager.pausePush();
     }
 
     @Override

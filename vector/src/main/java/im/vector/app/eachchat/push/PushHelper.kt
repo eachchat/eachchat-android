@@ -75,7 +75,7 @@ class PushHelper {
                 initClient("huawei")
             }else if (Build.BRAND.lowercase().equals("vivo")) {
                 initClient("vivo")
-            }else if (Build.BRAND.lowercase().equals("oppo")) {
+            }else if (Build.BRAND.lowercase().equals("oppo") || Build.BRAND.lowercase().equals("oneplus")) {
                 initClient("oppo")
             }else if (Build.BRAND.lowercase().equals("xiaomi")||Build.BRAND.lowercase().equals("redmi")) {
                 initClient("xiaomi")
@@ -116,7 +116,7 @@ class PushHelper {
             initClient("huawei")
         }else if (input.brand.lowercase().equals("vivo")) {
             initClient("vivo")
-        }else if (Build.BRAND.lowercase().equals("oppo")) {
+        }else if (Build.BRAND.lowercase().equals("oppo") || Build.BRAND.lowercase().equals("oneplus")) {
             initClient("oppo")
         }else if (Build.BRAND.lowercase().equals("xiaomi")||Build.BRAND.lowercase().equals("redmi")) {
             initClient("xiaomi")

@@ -227,7 +227,7 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
 
     private fun clearNotifications() {
         PushHelper.getInstance().clearNotification()
-        PushHelper.getInstance().logout()
+//        PushHelper.getInstance().logout()
         // Dismiss all notifications
         notificationDrawerManager.clearAllEvents()
 
