@@ -41,6 +41,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE"/>
+    <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE"/>
+
     <!-- Jitsi SDK is now API23+ -->
     <uses-sdk tools:overrideLibrary="org.jitsi.meet.sdk,com.oney.WebRTCModule,com.learnium.RNDeviceInfo,com.reactnativecommunity.asyncstorage,com.ocetnik.timer,com.calendarevents,com.reactnativecommunity.netinfo,com.kevinresol.react_native_default_preference,com.rnimmersive,com.corbt.keepawake,com.BV.LinearGradient,com.horcrux.svg,com.oblador.performance,com.reactnativecommunity.slider,com.brentvatne.react,com.reactnativecommunity.clipboard,com.swmansion.gesturehandler.react,org.linusu,org.reactnative.maskedview,com.reactnativepagerview,com.swmansion.reanimated,com.th3rdwave.safeareacontext,com.swmansion.rnscreens,org.devio.rn.splashscreen,com.reactnativecommunity.webview,org.wonday.orientation" />
 
@@ -69,7 +72,7 @@
         </intent>
     </queries>
 
-    <application android:supportsRtl="true">
+    <application android:supportsRtl="true" android:usesCleartextTraffic="true">
 
         <!-- Sentry auto-initialization disable -->
         <meta-data
@@ -484,6 +487,7 @@
             <intent-filter>
                 <action android:name="com.coloros.mcs.action.RECEIVE_MCS_MESSAGE" />
             </intent-filter>
+
         </service>
         <!-- OPPO end-->
 
@@ -541,7 +545,6 @@
         <receiver
             android:name=".eachchat.push.mipush.MiPushReceiver"
             android:exported="true">
-            <!--这里com.xiaomi.mipushdemo.DemoMessageRreceiver改成app中定义的完整类名-->
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
             </intent-filter>
@@ -572,13 +575,18 @@
         <!--            />-->
         <!-- firebase push End -->
 
-        <!-- getui       -->
-<!--        <service-->
-<!--            android:name="im.vector.app.eachchat.push.getui.PushService"-->
-<!--            android:exported="false"-->
-<!--            android:label="PushService"-->
-<!--            android:process=":pushservice" />-->
-<!--        <service android:name="im.vector.app.eachchat.push.getui.IntentService" />-->
+        <!-- GeTui Start-->
+        <service
+            android:name="im.vector.app.eachchat.push.getui.GetuiPushService"
+            android:exported="false"
+            />
+
+        <service
+            android:name="im.vector.app.eachchat.push.getui.GeTuiIntent"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:label="PushService"
+            android:process=":pushservice" />
+    <!-- GeTui End-->
     </application>
     <!-- HuaWei Need -->
 
@@ -587,9 +595,9 @@
             <action android:name="com.huawei.hms.core.aidlservice" />
         </intent>
 
-<!--        <intent>-->
-<!--            <action android:name="com.getui.sdk.action" />-->
-<!--        </intent>-->
+        <intent>
+            <action android:name="com.getui.sdk.action" />
+        </intent>
 
     </queries>
 

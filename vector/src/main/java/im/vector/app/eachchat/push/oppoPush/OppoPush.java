@@ -97,7 +97,7 @@ public class OppoPush extends AbsPush {
     @Override
     public void stopPush() {
         LogUtil.i("## oppo stopPush");
-//        HeytapPushManager.pausePush();
+        HeytapPushManager.pausePush();
     }
 
     @Override

@@ -589,7 +589,6 @@ class HomeActivity :
     override fun onDestroy() {
         views.drawerLayout.removeDrawerListener(drawerListener)
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks)
-        PushHelper.getInstance().stopPush()
         super.onDestroy()
     }
 
