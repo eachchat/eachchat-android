@@ -235,7 +235,7 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
     // Chat effects
-    implementation 'nl.dionsegijn:konfetti-xml:2.0.3'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.4'
 
     implementation 'com.github.jetradarmobile:android-snowfall:1.2.1'
     // DI
