@@ -80,7 +80,7 @@ class VectorSettingsAdvancedSettingsFragment :
     }
 
     private fun setupRageShakeSection() {
-        val isRageShakeAvailable = RageShake.isAvailable(requireContext())
+        val isRageShakeAvailable = RageShake.isAvailable()
 
         if (isRageShakeAvailable) {
             findPreference<VectorSwitchPreference>(VectorPreferences.SETTINGS_USE_RAGE_SHAKE_KEY)!!

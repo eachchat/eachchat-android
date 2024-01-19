@@ -59,8 +59,8 @@ class LoginSplashFragment :
     }
 
     private fun setupViews() {
-        views.loginSplashSubmit.debouncedClicks { getStarted() }
-
+//         views.loginSplashSubmit.debouncedClicks { getStarted() }
+        getStarted()
         if (buildMeta.isDebug || vectorPreferences.developerMode()) {
             views.loginSplashVersion.isVisible = true
             @SuppressLint("SetTextI18n")

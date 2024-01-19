@@ -1031,7 +1031,7 @@ class NotificationUtils @Inject constructor(
                         .setContentTitle(stringProvider.getString(R.string.app_name))
                         .setContentText(stringProvider.getString(R.string.settings_troubleshoot_test_push_notification_content))
                         .setSmallIcon(R.drawable.ic_notification)
-                        .setLargeIcon(getBitmap(context, R.drawable.element_logo_green))
+//                        .setLargeIcon(getBitmap(context, R.drawable.element_logo_green))
                         .setColor(ContextCompat.getColor(context, R.color.notification_accent_color))
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setCategory(NotificationCompat.CATEGORY_STATUS)
