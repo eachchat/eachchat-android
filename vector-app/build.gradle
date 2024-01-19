@@ -32,12 +32,12 @@ knit {
 }
 
 // Note: 2 digits max for each value
-ext.versionMajor = 1
-ext.versionMinor = 6
+ext.versionMajor = 3
+ext.versionMinor = 0
 // Note: even values are reserved for regular release, odd values for hotfix release.
 // When creating a hotfix, you should decrease the value, since the current value
 // is the value for the next regular release.
-ext.versionPatch = 2
+ext.versionPatch = 6
 
 static def getGitTimestamp() {
     def cmd = 'git show -s --format=%ct'
@@ -106,7 +106,7 @@ static def getGplayVersionSuffix() {
     if (gitBranchName() == "main") {
         return ""
     } else {
-        return "-dev"
+        return ""
     }
 }
 
@@ -118,7 +118,7 @@ static def gitTag() {
 // For F-Droid build, build on a not tagged commit will have a "-dev" suffix
 static def getFdroidVersionSuffix() {
     if (gitTag() == "") {
-        return "-dev"
+        return ""
     } else {
         return ""
     }
@@ -145,7 +145,7 @@ android {
     compileSdk versions.compileSdk
 
     defaultConfig {
-        applicationId "im.vector.app"
+        applicationId "ai.workly.eachchat"
         // Set to API 21: see #405
         minSdk versions.minSdk
         targetSdk versions.targetSdk
@@ -161,8 +161,16 @@ android {
         // Required for sonar analysis
         versionName "${versionMajor}.${versionMinor}.${versionPatch}-sonar"
 
+        resValue("string" , "mipush_appid","2882303761518807958")
+        resValue("string" , "mipush_appkey","5501880794958")
+        resValue("string" , "huawei_push_appid","103371193")
+        resValue("string" , "oppo_appid","30410173")
+        resValue("string" , "oppo_appkey","9ad17576990e47f5800f6c4963e92ff8")
+        resValue("string" , "oppo_secret","11a585618b6140f5afbc87a5582df028")
+        resValue("string" , "vivo_appid","105476444")
+        resValue("string" , "vivo_appkey","cc878ba88f29e64c6207d4467f65a5c8")
         // Generate a random app task affinity
-        manifestPlaceholders = [appTaskAffinitySuffix: "H_${gitRevision()}"]
+        manifestPlaceholders = [appTaskAffinitySuffix: "H_${gitRevision()}",GETUI_APPID       : "jGoXrHRZkEACkLhdVwGyn6",]
 
         buildConfigField "String", "GIT_REVISION", "\"${gitRevision()}\""
         buildConfigField "String", "GIT_REVISION_DATE", "\"${gitRevisionDate()}\""
@@ -226,16 +234,24 @@ android {
 
     signingConfigs {
         debug {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storeFile file('./signature/debug.keystore')
-            storePassword 'android'
+//            keyAlias 'androiddebugkey'
+//            keyPassword 'android'
+//            storeFile file('./signature/debug.keystore')
+//            storePassword 'android'
+            keyAlias 'ai.workly.yql.android'
+            keyPassword 'zhu88jie'
+            storeFile file('/Users/wenttang/workspace/eachchat-android/gradle/yql-android-signature.jks')
+            storePassword 'Zhu88jie'
         }
         nightly {
-            keyAlias System.env.ELEMENT_ANDROID_NIGHTLY_KEYID ?: project.property("signing.element.nightly.keyId")
-            keyPassword System.env.ELEMENT_ANDROID_NIGHTLY_KEYPASSWORD ?: project.property("signing.element.nightly.keyPassword")
-            storeFile file('./signature/nightly.keystore')
-            storePassword System.env.ELEMENT_ANDROID_NIGHTLY_STOREPASSWORD ?: project.property("signing.element.nightly.storePassword")
+//            keyAlias System.env.ELEMENT_ANDROID_NIGHTLY_KEYID ?: project.property("signing.element.nightly.keyId")
+//            keyPassword System.env.ELEMENT_ANDROID_NIGHTLY_KEYPASSWORD ?: project.property("signing.element.nightly.keyPassword")
+//            storeFile file('./signature/nightly.keystore')
+//            storePassword System.env.ELEMENT_ANDROID_NIGHTLY_STOREPASSWORD ?: project.property("signing.element.nightly.storePassword")
+            keyAlias 'ai.workly.yql.android'
+            keyPassword 'zhu88jie'
+            storeFile file('/Users/wenttang/workspace/eachchat-android/gradle/yql-android-signature.jks')
+            storePassword 'Zhu88jie'
         }
         release {
             keyAlias project.property("signing.element.keyId")
@@ -247,17 +263,20 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
-            signingConfig signingConfigs.debug
-            resValue "string", "app_name", "Element - dbg"
-
-            if (project.hasProperty("coverage")) {
-                testCoverageEnabled = coverage == "true"
+            resValue "string", "app_name", "亿洽"
+            postprocessing {
+                // FIXME Set to true.
+                removeUnusedCode false
+                removeUnusedResources true
+                // We do not activate obfuscation as it makes it hard then to read crash reports, and it's a bit useless on an open source project :)
+                obfuscate false
+                optimizeCode true
+                proguardFiles 'proguard-rules.pro'
             }
         }
 
         release {
-            resValue "string", "app_name", "Element"
+            resValue "string", "app_name", "亿洽"
             postprocessing {
                 // FIXME Set to true.
                 removeUnusedCode false
@@ -374,7 +393,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "18"
         freeCompilerArgs += [
                 "-opt-in=kotlin.RequiresOptIn",
                 // Fixes false positive "This is an internal Mavericks API. It is not intended for external use."
@@ -396,6 +415,7 @@ dependencies {
     implementation project(':vector')
     implementation project(':vector-config')
     implementation project(':library:core-utils')
+    debugImplementation project(':library:external:span')
     debugImplementation project(':library:ui-styles')
     implementation libs.dagger.hilt
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -455,4 +475,22 @@ dependencies {
     androidTestImplementation "org.jetbrains.kotlin:kotlin-reflect:1.8.21"
     debugImplementation libs.androidx.fragmentTestingManifest
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
+
+    // 个推
+//    implementation 'com.getui:gtsdk:3.2.18.0'  //个推SDK
+//    implementation 'com.getui:gtc:3.2.6.0'  //个推核心组件
+    // 华为
+    implementation 'com.huawei.hms:push:6.9.0.300'
+
+    // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
+    implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.21'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation 'androidx.databinding:databinding-common:4.2.2'
+    implementation 'androidx.databinding:databinding-adapters:4.2.2'
+    // https://mvnrepository.com/artifact/com.blankj/utilcode
+    implementation group: 'com.blankj', name: 'utilcode', version: '1.30.7'
 }
