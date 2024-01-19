@@ -4,7 +4,8 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.devtools.ksp'
 apply plugin: 'dagger.hilt.android.plugin'
-
+//华为
+apply plugin: 'com.huawei.agconnect'
 if (project.hasProperty("coverage")) {
     apply plugin: 'jacoco'
 }
@@ -46,9 +47,19 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86", 'arm64-v8a', 'x86_64'
         }
-
+        resValue("string" , "mipush_appid","2882303761518807958")
+        resValue("string" , "mipush_appkey","5501880794958")
+        resValue("string" , "huawei_push_appid","103371193")
+        resValue("string" , "oppo_appid","30410173")
+        resValue("string" , "oppo_appkey","9ad17576990e47f5800f6c4963e92ff8")
+        resValue("string" , "oppo_secret","11a585618b6140f5afbc87a5582df028")
+        resValue("string" , "vivo_appid","105476444")
+        resValue("string" , "vivo_appkey","cc878ba88f29e64c6207d4467f65a5c8")
         // Generate a random app task affinity
-        manifestPlaceholders = [appTaskAffinitySuffix: "H_${gitRevision()}"]
+        manifestPlaceholders = [
+                appTaskAffinitySuffix: "H_${gitRevision()}",
+                GETUI_APPID       : "jGoXrHRZkEACkLhdVwGyn6",
+        ]
 
         // The following argument makes the Android Test Orchestrator run its
         // "pm clear" command after each test invocation. This command ensures
@@ -80,7 +91,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "18"
         freeCompilerArgs += [
                 "-opt-in=kotlin.RequiresOptIn",
                 // Fixes false positive "This is an internal Mavericks API. It is not intended for external use."
@@ -110,12 +121,13 @@ android {
 apply from: '../flavor.gradle'
 
 dependencies {
-
     implementation project(":vector-config")
     api project(":matrix-sdk-android")
     implementation project(":matrix-sdk-android-flow")
     implementation project(":library:external:jsonviewer")
     implementation project(":library:external:diff-match-patch")
+    implementation project(":library:external:textdrawable")
+    implementation project(":library:external:autocomplete")
     implementation project(":library:ui-strings")
     implementation project(":library:ui-styles")
     implementation project(":library:core-utils")
@@ -184,11 +196,8 @@ dependencies {
     api libs.androidx.preferenceKtx
 
     // UI
-    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     implementation libs.google.material
-    api('me.gujun.android:span:1.7') {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    implementation project(":library:external:span")
     implementation libs.markwon.core
     implementation libs.markwon.extLatex
     implementation libs.markwon.imageGlide
@@ -199,18 +208,16 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation libs.androidx.autoFill
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'com.github.hyuwah:DraggableView:1.0.0'
+    implementation 'com.github.hyuwah:DraggableView:1.0.1'
 
     // Custom Tab
-    implementation 'androidx.browser:browser:1.5.0'
+    implementation 'androidx.browser:browser:1.6.0'
 
     // Passphrase strength helper
-    implementation 'com.nulab-inc:zxcvbn:1.7.0'
+    implementation 'com.nulab-inc:zxcvbn:1.8.2'
 
     // Alerter
     implementation 'com.github.tapadoo:alerter:7.2.4'
-
-    implementation 'com.otaliastudios:autocomplete:1.1.0'
 
     // Shake detection
     implementation 'com.squareup:seismic:1.0.3'
@@ -225,10 +232,10 @@ dependencies {
 
     implementation libs.github.glide
     kapt libs.github.glideCompiler
-    implementation 'com.github.yalantis:ucrop:2.2.8'
+    implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
     // Chat effects
-    implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.3'
 
     implementation 'com.github.jetradarmobile:android-snowfall:1.2.1'
     // DI
@@ -242,9 +249,9 @@ dependencies {
     implementation libs.sentry.sentryAndroid
 
     // UnifiedPush
-    implementation 'com.github.UnifiedPush:android-connector:2.1.1'
+    implementation 'com.github.UnifiedPush:android-connector:2.2.0'
 
-    implementation "androidx.emoji2:emoji2:1.3.0"
+    implementation "androidx.emoji2:emoji2:1.4.0"
 
     // WebRTC
     // org.webrtc:google-webrtc is for development purposes only
@@ -266,11 +273,7 @@ dependencies {
     // Stick to 3.3.3 because of https://github.com/zxing/zxing/issues/1170
     implementation 'com.google.zxing:core:3.3.3'
 
-    // Excludes the legacy support library annotation usages
-    // https://github.com/dm77/barcodescanner/blob/d036996c8a6f36a68843ffe539c834c28944b2d5/core/src/main/java/me/dm7/barcodescanner/core/CameraWrapper.java#L4
-    implementation ('me.dm7.barcodescanner:zxing:1.9.13') {
-        exclude group: 'com.android.support', module: 'support-v4'
-    }
+    implementation project(":library:external:barcodescanner:zxing")
 
     // Emoji Keyboard
     api libs.vanniktech.emojiMaterial
@@ -284,7 +287,8 @@ dependencies {
     runtimeOnly(libs.jsonwebtoken.jjwtOrgjson) {
         exclude group: 'org.json', module: 'json' //provided by Android natively
     }
-    implementation 'commons-codec:commons-codec:1.15'
+    implementation 'commons-codec:commons-codec:1.16.0'
+
 
     // MapTiler
     api(libs.maplibre.androidSdk) {
@@ -299,6 +303,7 @@ dependencies {
     testImplementation libs.tests.kluent
     testImplementation libs.mockk.mockk
     testImplementation libs.androidx.coreTesting
+    testImplementation libs.tests.robolectric
     // Plant Timber tree for test
     testImplementation libs.tests.timberJunitRule
     testImplementation libs.airbnb.mavericksTesting
@@ -335,4 +340,43 @@ dependencies {
     debugImplementation libs.androidx.fragmentTestingManifest
     androidTestImplementation libs.androidx.fragmentTesting
     androidTestImplementation "org.jetbrains.kotlin:kotlin-reflect:1.9.20"
+
+    // 华为
+    implementation 'com.huawei.hms:push:6.9.0.300'
+    // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
+    implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.21'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation 'androidx.databinding:databinding-common:4.2.2'
+    implementation 'androidx.databinding:databinding-adapters:4.2.2'
+    // https://mvnrepository.com/artifact/com.blankj/utilcode
+    implementation 'com.blankj:utilcode:1.30.7'
+// https://mvnrepository.com/artifact/com.google.firebase/firebase-messaging
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+// https://mvnrepository.com/artifact/com.google.firebase/firebase-analytics
+    implementation 'com.google.firebase:firebase-analytics:21.3.0'
+    // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.0'
+
+    implementation fileTree(include: ['*.jar'],   dir: 'libs')
+
+//    implementation   files("libs/vivo_pushSDK_v3.0.0.4_484.aar")
+    // oppo
+//    implementation files('libs/com.heytap.msp_3.1.0.aar')
+
+//以下依赖都需要添加
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'commons-codec:commons-codec:1.6'
+    implementation 'com.android.support:support-annotations:28.0.0'
+
+    // xiaomi
+//    implementation files('libs/MiPush_SDK_Client_5_7_8-C_3rd.aar')
+    implementation project(path: ':xiaomipush')
+    implementation project(path: ':vivopush')
+    implementation project(path: ':heytap')
+    // 个推
+//    implementation 'com.getui:gtsdk:3.2.18.0'  //个推SDK
+//    implementation 'com.getui:gtc:3.2.6.0'  //个推核心组件
 }

@@ -13,14 +13,14 @@
 
     <application>
 
-        <receiver
-            android:name="im.vector.app.fdroid.receiver.OnApplicationUpgradeOrRebootReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name="im.vector.app.fdroid.receiver.OnApplicationUpgradeOrRebootReceiver"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />-->
+<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
         <receiver
             android:name="im.vector.app.fdroid.receiver.AlarmSyncBroadcastReceiver"
@@ -31,6 +31,14 @@
             android:name="im.vector.app.fdroid.service.GuardAndroidService"
             android:exported="false"
             tools:ignore="Instantiatable" />
+
+<!--        <service-->
+<!--            android:name="im.vector.app.push.getui.PushService"-->
+<!--            android:exported="false"-->
+<!--            android:label="PushService"-->
+<!--            android:process=":pushservice"-->
+<!--            />-->
+<!--        <service android:name="im.vector.app.push.getui.IntentService"/>-->
 
     </application>
 

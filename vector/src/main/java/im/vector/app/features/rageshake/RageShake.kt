@@ -46,16 +46,16 @@ class RageShake @Inject constructor(
     var interceptor: (() -> Unit)? = null
 
     fun start() {
-        val sensorManager = activity.getSystemService<SensorManager>() ?: return
-
-        shakeDetector = ShakeDetector(this).apply {
-            setSensitivity(vectorPreferences.getRageshakeSensitivity())
-            start(sensorManager, SensorManager.SENSOR_DELAY_GAME)
-        }
+//        val sensorManager = activity.getSystemService<SensorManager>() ?: return
+//
+//        shakeDetector = ShakeDetector(this).apply {
+//            setSensitivity(vectorPreferences.getRageshakeSensitivity())
+//            start(sensorManager, SensorManager.SENSOR_DELAY_GAME)
+//        }
     }
 
     fun stop() {
-        shakeDetector?.stop()
+//        shakeDetector?.stop()
     }
 
     fun setSensitivity(sensitivity: Int) {
@@ -109,8 +109,8 @@ class RageShake @Inject constructor(
         /**
          * Check if the feature is available.
          */
-        fun isAvailable(context: Context): Boolean {
-            return context.getSystemService<SensorManager>()?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null
+        fun isAvailable(): Boolean {
+            return false
         }
     }
 }
