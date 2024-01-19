@@ -22,6 +22,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.vector.app.R
 import im.vector.app.core.extensions.cannotLogoutSafely
 import im.vector.app.core.extensions.singletonEntryPoint
+import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
 import kotlinx.coroutines.CoroutineScope
@@ -36,6 +37,8 @@ class SignOutUiWorker(private val activity: FragmentActivity) {
     }
 
     private fun CoroutineScope.perform(session: Session) = launch {
+        PushHelper.getInstance().clearNotification()
+        PushHelper.getInstance().logout()
         if (session.cannotLogoutSafely()) {
             // The backup check on logout flow has to be displayed if there are keys in the store, and the keys backup state is not Ready
             val signOutDialog = SignOutBottomSheetDialogFragment.newInstance()

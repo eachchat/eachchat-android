@@ -68,6 +68,7 @@ class GoogleFcmHelper @Inject constructor(
         // 'app should always check the device for a compatible Google Play services APK before accessing Google Play services features'
         if (checkPlayServices(context)) {
             try {
+                //todo 这里好像在获取令牌
                 FirebaseMessaging.getInstance().token
                         .addOnSuccessListener { token ->
                             storeFcmToken(token)
