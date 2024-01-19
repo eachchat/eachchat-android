@@ -6,6 +6,14 @@
     <!-- Background color -->
     <item android:drawable="?colorPrimary" />
 
+    <item android:gravity="bottom"
+        android:bottom="16dp" >
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/cp" />
+    </item>
+
+
     <!-- Centered logo -->
     <item>
         <bitmap
