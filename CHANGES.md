@@ -1,3 +1,57 @@
+Changes in Element v1.6.6 (2023-10-05)
+======================================
+
+Bugfixes 🐛
+----------
+ - Fixed JWT token for Jitsi openidtoken-jwt authentication ([#7758](https://github.com/vector-im/element-android/issues/7758))
+ - Fix crash when max shortcuts count is exceeded ([#8644](https://github.com/vector-im/element-android/issues/8644))
+ - Fix Login with QR code not working with rust crypto. ([#8653](https://github.com/vector-im/element-android/issues/8653))
+
+Other changes
+-------------
+ - Use 3PID capability to show / hide email UI in settings ([#8615](https://github.com/vector-im/element-android/issues/8615))
+ - If an external account manager is configured on the server, use it to delete other sessions and hide the multi session deletion. ([#8616](https://github.com/vector-im/element-android/issues/8616))
+ - Hide account deactivation UI for account managed externally. ([#8619](https://github.com/vector-im/element-android/issues/8619))
+ - Fix import of SAS Emoji string translations. ([#8623](https://github.com/vector-im/element-android/issues/8623))
+ - Open external account manager for delete other sessions using Chrome custom tabs. ([#8645](https://github.com/vector-im/element-android/issues/8645))
+
+
+Changes in Element v1.6.5 (2023-07-25)
+======================================
+
+Bugfixes 🐛
+----------
+ - Fix several crashes observed when the device cannot reach the homeserver ([#8578](https://github.com/vector-im/element-android/issues/8578))
+
+Other changes
+-------------
+ - Update MSC3912 implementation: Redaction of related events ([#8481](https://github.com/vector-im/element-android/issues/8481))
+ - Include some source code in our project to remove our dependency to artifact hosted by bintray (Jcenter). ([#8556](https://github.com/vector-im/element-android/issues/8556))
+
+
+Changes in Element v1.6.3 (2023-06-27)
+======================================
+
+Features ✨
+----------
+ - **Element Android is now using the Crypto Rust SDK**. Migration of user's data should be done at first launch after application upgrade. ([#8390](https://github.com/vector-im/element-android/issues/8390))
+ - [Rich text editor] Add mentions and slash commands ([#8440](https://github.com/vector-im/element-android/issues/8440))
+
+Bugfixes 🐛
+----------
+ - Update rich text editor library to support pasting of images. ([#8270](https://github.com/vector-im/element-android/issues/8270))
+ - Fix | Got asked twice about verification #8353 (and other verification banners problems) ([#8353](https://github.com/vector-im/element-android/issues/8353))
+ - Prompt the user when the invited MatrixId is not recognized ([#8468](https://github.com/vector-im/element-android/issues/8468))
+ - The correct title and options are now displayed When a poll that was edited is ended. ([#8471](https://github.com/vector-im/element-android/issues/8471))
+ - In some conditions the room shield is not refreshed correctly ([#8507](https://github.com/vector-im/element-android/issues/8507))
+ - Fix crypto config fallback key sharing strategy ([#8541](https://github.com/vector-im/element-android/issues/8541))
+
+Other changes
+-------------
+ - MSC3987 implementation: the 'dont_notify' action for a push_rule is now deprecated and replaced by an empty action list. ([#8503](https://github.com/vector-im/element-android/issues/8503))
+ - Update crypto rust sdk version to 0.3.10 ([#8554](https://github.com/vector-im/element-android/issues/8554))
+
+
 Changes in Element v1.6.2 (2023-06-02)
 ======================================
 

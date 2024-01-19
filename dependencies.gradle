@@ -9,31 +9,31 @@ ext.versions = [
 def gradle = "7.4.2"
 // Ref: https://kotlinlang.org/releases.html
 def kotlin = "1.8.10"
-def kotlinCoroutines = "1.6.4"
+def kotlinCoroutines = "1.7.3"
 def dagger = "2.45"
 def firebaseBom = "32.0.0"
 def appDistribution = "16.0.0-beta08"
 def retrofit = "2.9.0"
 def markwon = "4.6.2"
-def moshi = "1.14.0"
+def moshi = "1.15.0"
 def lifecycle = "2.5.1"
 def flowBinding = "1.2.0"
 def flipper = "0.190.0"
 def epoxy = "5.0.0"
 def mavericks = "3.0.2"
-def glide = "4.15.1"
+def glide = "4.16.0"
 def bigImageViewer = "1.8.1"
 def jjwt = "0.11.5"
-def vanniktechEmoji = "0.16.0"
+def vanniktechEmoji = "0.17.0"
 def sentry = "6.18.1"
 // Use 1.6.0 alpha to fix issue with test
-def fragment = "1.6.0-beta01"
+def fragment = "1.7.0-alpha06"
 // Testing
 def mockk = "1.12.3" // We need to use 1.12.3 to have mocking in androidTest until a new version is released: https://github.com/mockk/mockk/issues/819
 def espresso = "3.5.1"
 def androidxTest = "1.5.0"
 def androidxOrchestrator = "1.4.2"
-def paparazzi = "1.2.0"
+def paparazzi = "1.3.1"
 
 ext.libs = [
         gradle      : [
@@ -59,7 +59,7 @@ ext.libs = [
                 'constraintLayout'        : "androidx.constraintlayout:constraintlayout:2.1.4",
                 'work'                    : "androidx.work:work-runtime-ktx:2.8.1",
                 'autoFill'                : "androidx.autofill:autofill:1.1.0",
-                'preferenceKtx'           : "androidx.preference:preference-ktx:1.2.0",
+                'preferenceKtx'           : "androidx.preference:preference-ktx:1.2.1",
                 'junit'                   : "androidx.test.ext:junit:1.1.5",
                 'lifecycleCommon'         : "androidx.lifecycle:lifecycle-common:$lifecycle",
                 'lifecycleLivedata'       : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",
@@ -101,7 +101,7 @@ ext.libs = [
         ],
         element     : [
                 'opusencoder'             : "io.element.android:opusencoder:1.1.0",
-                'wysiwyg'                 : "io.element.android:wysiwyg:2.2.1"
+                'wysiwyg'                 : "io.element.android:wysiwyg:2.2.2"
         ],
         squareup    : [
                 'moshi'                  : "com.squareup.moshi:moshi:$moshi",
@@ -134,6 +134,7 @@ ext.libs = [
         maplibre    : [
                 'androidSdk'             : "org.maplibre.gl:android-sdk:10.0.2",
                 'pluginAnnotation'       : "org.maplibre.gl:android-plugin-annotation-v9:2.0.1"
+
         ],
         mockk      : [
                 'mockk'                   : "io.mockk:mockk:$mockk",
@@ -172,6 +173,7 @@ ext.libs = [
                 'kluent'                 : "org.amshove.kluent:kluent-android:1.73",
                 'timberJunitRule'        : "net.lachlanmckee:timber-junit-rule:1.0.1",
                 'junit'                  : "junit:junit:4.13.2",
+                'robolectric'            : "org.robolectric:robolectric:4.9",
         ]
 ]
 
