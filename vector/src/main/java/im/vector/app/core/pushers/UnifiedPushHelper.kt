@@ -31,6 +31,7 @@ import org.unifiedpush.android.connector.UnifiedPush
 import timber.log.Timber
 import java.net.URL
 import javax.inject.Inject
+import im.vector.app.eachchat.push.PushHelper
 
 class UnifiedPushHelper @Inject constructor(
         private val context: Context,
@@ -45,13 +46,19 @@ class UnifiedPushHelper @Inject constructor(
             context: Context,
             onDistributorSelected: (String) -> Unit,
     ) {
-        val internalDistributorName = stringProvider.getString(
-                if (fcmHelper.isFirebaseAvailable()) {
-                    R.string.unifiedpush_distributor_fcm_fallback
-                } else {
-                    R.string.unifiedpush_distributor_background_sync
-                }
-        )
+        val internalDistributorName = if (isHUAWEI()) {
+            "HUAWEI"
+        } else if (isXIAOMI()) {
+            "XIAOMI"
+         } else if (isOPPO()) {
+            "OPPO"
+        } else if (isVIVO()) {
+            "VIVO"
+        } else if (fcmHelper.isFirebaseAvailable()) {
+            stringProvider.getString(R.string.unifiedpush_distributor_fcm_fallback)
+        } else {
+            stringProvider.getString(R.string.unifiedpush_distributor_background_sync)
+        }
 
         val distributors = UnifiedPush.getDistributors(context)
         val distributorsName = distributors.map {
@@ -133,6 +140,10 @@ class UnifiedPushHelper @Inject constructor(
 
     fun getCurrentDistributorName(): String {
         return when {
+            isHUAWEI() -> "HUAWEI"
+            isXIAOMI() -> "XIAOMI"
+            isVIVO() -> "VIVO"
+            isOPPO() -> "OPPO"
             isEmbeddedDistributor() -> stringProvider.getString(R.string.unifiedpush_distributor_fcm_fallback)
             isBackgroundSync() -> stringProvider.getString(R.string.unifiedpush_distributor_background_sync)
             else -> context.getApplicationLabel(UnifiedPush.getDistributor(context))
@@ -140,12 +151,37 @@ class UnifiedPushHelper @Inject constructor(
     }
 
     fun isEmbeddedDistributor(): Boolean {
-        return isInternalDistributor() && fcmHelper.isFirebaseAvailable()
+        return isInternalDistributor() && fcmHelper.isFirebaseAvailable() &&
+                !isHUAWEI() &&
+                !isOPPO() &&
+                !isXIAOMI() &&
+                !isVIVO()
     }
 
     fun isBackgroundSync(): Boolean {
-        return isInternalDistributor() && !fcmHelper.isFirebaseAvailable()
+        return isInternalDistributor() && !fcmHelper.isFirebaseAvailable() &&
+                !isHUAWEI() &&
+                !isOPPO() &&
+                !isXIAOMI() &&
+                !isVIVO()
     }
+
+    fun isHUAWEI(): Boolean {
+        return PushHelper.getInstance().getBrand().equals("huawei")
+    }
+
+    fun isXIAOMI(): Boolean {
+        return PushHelper.getInstance().getBrand().equals("xiaomi") || PushHelper.getInstance().getBrand().equals("redmi")
+    }
+
+    fun isVIVO(): Boolean {
+        return PushHelper.getInstance().getBrand().equals("vivo")
+    }
+
+    fun isOPPO(): Boolean {
+        return PushHelper.getInstance().getBrand().equals("oppo")
+    }
+
 
     private fun isInternalDistributor(): Boolean {
         return UnifiedPush.getDistributor(context).isEmpty() ||
