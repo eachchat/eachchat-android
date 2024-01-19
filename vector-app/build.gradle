@@ -428,7 +428,7 @@ dependencies {
     debugImplementation(libs.flipper.flipperNetworkPlugin) {
         exclude group: 'com.facebook.fbjni', module: 'fbjni'
     }
-    debugImplementation 'com.facebook.soloader:soloader:0.10.5'
+    debugImplementation 'com.facebook.soloader:soloader:0.11.0'
     debugImplementation "com.kgurgul.flipper:flipper-realm-android:2.2.0"
 
     gplayImplementation "com.google.android.gms:play-services-location:21.0.1"
