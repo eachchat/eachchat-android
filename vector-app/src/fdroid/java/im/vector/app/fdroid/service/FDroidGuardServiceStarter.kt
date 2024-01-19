@@ -33,8 +33,8 @@ class FDroidGuardServiceStarter @Inject constructor(
         if (preferences.isBackgroundSyncEnabled()) {
             try {
                 Timber.i("## Sync: starting GuardService")
-                val intent = Intent(appContext, GuardAndroidService::class.java)
-                ContextCompat.startForegroundService(appContext, intent)
+//                val intent = Intent(appContext, GuardAndroidService::class.java)
+//                ContextCompat.startForegroundService(appContext, intent)
             } catch (ex: Throwable) {
                 Timber.e("## Sync: ERROR starting GuardService")
             }
@@ -42,7 +42,7 @@ class FDroidGuardServiceStarter @Inject constructor(
     }
 
     override fun stop() {
-        val intent = Intent(appContext, GuardAndroidService::class.java)
-        appContext.stopService(intent)
+//        val intent = Intent(appContext, GuardAndroidService::class.java)
+//        appContext.stopService(intent)
     }
 }

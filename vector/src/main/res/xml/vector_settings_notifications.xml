@@ -57,6 +57,7 @@
             android:persistent="false"
             android:title="@string/settings_notification_method" />
 
+
         <!-- For API < 26 -->
         <im.vector.app.core.preference.VectorPreference
             android:dialogTitle="@string/settings_notification_ringtone"
