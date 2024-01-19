@@ -232,7 +232,7 @@ dependencies {
 
     implementation libs.github.glide
     kapt libs.github.glideCompiler
-    implementation 'com.github.yalantis:ucrop:2.2.8'
+    implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
     // Chat effects
     implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
