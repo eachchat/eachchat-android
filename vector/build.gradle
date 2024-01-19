@@ -339,7 +339,7 @@ dependencies {
     androidTestUtil libs.androidx.orchestrator
     debugImplementation libs.androidx.fragmentTestingManifest
     androidTestImplementation libs.androidx.fragmentTesting
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-reflect:1.9.20"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-reflect:1.9.22"
 
     // 华为
     implementation 'com.huawei.hms:push:6.9.0.300'
