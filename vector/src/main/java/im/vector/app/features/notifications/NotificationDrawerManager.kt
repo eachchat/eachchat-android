@@ -204,12 +204,13 @@ class NotificationDrawerManager @Inject constructor(
 
         if (notificationState.hasAlreadyRendered(eventsToRender)) {
             Timber.d("Skipping notification update due to event list not changing")
-        } else {
-            notificationState.clearAndAddRenderedEvents(eventsToRender)
-            val session = currentSession ?: return
-            renderEvents(session, eventsToRender)
-            persistEvents()
         }
+//        else {
+//            notificationState.clearAndAddRenderedEvents(eventsToRender)
+//            val session = currentSession ?: return
+//            renderEvents(session, eventsToRender)
+//            persistEvents()
+//        }
     }
 
     private fun persistEvents() {

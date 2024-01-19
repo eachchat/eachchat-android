@@ -15,7 +15,7 @@ jobs:
     name: Project Check Suite
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run code quality check suite
         run: ./tools/check/check_code_quality.sh
 
@@ -24,7 +24,7 @@ jobs:
     name: Knit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run knit
         run: |
           ./gradlew knitCheck $CI_GRADLE_ARG_PROPERTIES
@@ -38,7 +38,7 @@ jobs:
       group: ${{ github.ref == 'refs/heads/main' && format('lint-main-{0}', github.sha) || github.ref == 'refs/heads/develop' && format('lint-develop-{0}', github.sha) || format('lint-{0}', github.ref) }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run ktlint
         run: |
           ./gradlew ktlintCheck $CI_GRADLE_ARG_PROPERTIES --continue
@@ -68,7 +68,7 @@ jobs:
           yarn add danger-plugin-lint-report --dev
       - name: Danger lint
         if: always()
-        uses: danger/danger-js@11.2.6
+        uses: danger/danger-js@11.3.0
         with:
           args: "--dangerfile ./tools/danger/dangerfile-lint.js"
         env:
@@ -85,7 +85,7 @@ jobs:
       group: ${{ github.ref == 'refs/heads/main' && format('dep-main-{0}', github.sha) || github.ref == 'refs/heads/develop' && format('dep-develop-{0}', github.sha) || format('dep-{0}', github.ref) }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Dependency analysis
         run: ./gradlew dependencyCheckAnalyze $CI_GRADLE_ARG_PROPERTIES
       - name: Upload dependency analysis
