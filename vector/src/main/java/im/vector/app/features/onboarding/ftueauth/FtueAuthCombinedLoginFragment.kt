@@ -138,14 +138,21 @@ class FtueAuthCombinedLoginFragment :
     }
 
     override fun updateWithState(state: OnboardingViewState) {
+        //TODO 这里获取homeserv的链接地址
+        val homeServerURL = state.selectedHomeserver.userFacingUrl.toReducedUrl()
         setupUi(state)
         setupAutoFill()
 
-        views.selectedServerName.text = state.selectedHomeserver.userFacingUrl.toReducedUrl()
+        views.selectedServerName.text = homeServerURL
 
         if (state.isLoading) {
             // Ensure password is hidden
             views.loginPasswordInput.editText().hidePassword()
+        }
+        //TODO 比对链接，如果是下方的就隐藏密码登陆，忘记密码
+        if (homeServerURL.contains("chat.yunify.com")){
+            hideUsernamePassword()
+            renderSsoProviders(state.deviceId, state.selectedHomeserver.preferredLoginMode)
         }
     }
 
@@ -186,6 +193,8 @@ class FtueAuthCombinedLoginFragment :
 
     private fun hideUsernamePassword() {
         views.loginEntryGroup.isVisible = false
+        //TODO 隐藏密码登陆同时隐藏忘记密码
+        views.loginForgotPassword.isVisible=false
     }
 
     private fun showUsernamePassword() {
