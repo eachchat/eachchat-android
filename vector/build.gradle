@@ -249,7 +249,7 @@ dependencies {
     implementation libs.sentry.sentryAndroid
 
     // UnifiedPush
-    implementation 'com.github.UnifiedPush:android-connector:2.1.1'
+    implementation 'com.github.UnifiedPush:android-connector:2.2.0'
 
     implementation "androidx.emoji2:emoji2:1.4.0"
 
