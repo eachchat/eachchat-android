@@ -20,11 +20,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -49,6 +51,8 @@ import im.vector.app.core.pushers.UnifiedPushHelper
 import im.vector.app.core.utils.registerForPermissionsResult
 import im.vector.app.core.utils.startSharePlainTextIntent
 import im.vector.app.databinding.ActivityHomeBinding
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
 import im.vector.app.features.analytics.accountdata.AnalyticsAccountDataViewModel
@@ -202,10 +206,13 @@ class HomeActivity :
 
     override fun getBinding() = ActivityHomeBinding.inflate(layoutInflater)
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isNewAppLayoutEnabled = vectorPreferences.isNewAppLayoutEnabled()
+        BaseModule.setSession(activeSessionHolder.getActiveSession())
         analyticsScreenName = MobileScreen.ScreenName.Home
+        PushHelper.getInstance().startPush(activeSessionHolder)
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false)
         sharedActionViewModel = viewModelProvider[HomeSharedActionViewModel::class.java]
         roomListSharedActionViewModel = viewModelProvider[RoomListSharedActionViewModel::class.java]
@@ -582,12 +589,13 @@ class HomeActivity :
     override fun onDestroy() {
         views.drawerLayout.removeDrawerListener(drawerListener)
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks)
+        PushHelper.getInstance().stopPush()
         super.onDestroy()
     }
 
     override fun onResume() {
         super.onResume()
-
+        PushHelper.getInstance().clearNotification()
         if (vectorUncaughtExceptionHandler.didAppCrash()) {
             vectorUncaughtExceptionHandler.clearAppCrashStatus()
 

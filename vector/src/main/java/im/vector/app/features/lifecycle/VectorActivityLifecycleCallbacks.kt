@@ -24,7 +24,12 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
+import com.facebook.stetho.common.LogUtil
+import im.vector.app.core.di.ActiveSessionHolder
+import im.vector.app.eachchat.base.BR.count
+import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
 import im.vector.app.features.popup.PopupAlertManager
@@ -36,6 +41,11 @@ import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.util.getPackageInfoCompat
 import timber.log.Timber
+import uniffi.wysiwyg_composer.Disposable
+import java.util.concurrent.TimeUnit
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.schedulers.Schedulers
 
 class VectorActivityLifecycleCallbacks constructor(private val popupAlertManager: PopupAlertManager) : Application.ActivityLifecycleCallbacks {
     /**
@@ -154,4 +164,34 @@ class VectorActivityLifecycleCallbacks constructor(private val popupAlertManager
      * @return true if the activity is potentially malicious
      */
     private fun isPotentialMaliciousActivity(activity: ComponentName): Boolean = activitiesInfo.none { it.name == activity.className }
+
+    private fun operationPush(start: Boolean, activeSessionHolder: ActiveSessionHolder) {
+        Observable.timer(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(object : Observer<Long?> {
+                    override fun onSubscribe(d: io.reactivex.disposables.Disposable) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onNext(t: Long) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onError(e: Throwable) {}
+                    @RequiresApi(Build.VERSION_CODES.N)
+                    override fun onComplete() {
+                        try {
+                            if (start && count == 0) {
+                                LogUtil.i("## Push Application startPush")
+                                PushHelper.getInstance().startPush(activeSessionHolder)
+                            } else if (!start && count > 0) {
+                                LogUtil.i("## Push Application stopPush")
+                                PushHelper.getInstance().stopPush()
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                })
+    }
 }
