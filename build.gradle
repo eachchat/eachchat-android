@@ -54,7 +54,7 @@ plugins {
     // Detekt
     id "io.gitlab.arturbosch.detekt" version "1.23.3"
     // Ksp
-    id "com.google.devtools.ksp" version "1.9.20-1.0.14"
+    id "com.google.devtools.ksp" version "1.9.22-1.0.17"
 
     // Dependency Analysis
     id 'com.autonomousapps.dependency-analysis' version "1.25.0"
