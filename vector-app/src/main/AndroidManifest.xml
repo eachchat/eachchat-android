@@ -66,6 +66,43 @@
                 android:resource="@xml/sdk_provider_paths" />
         </provider>
 
+<!--        <service-->
+<!--            android:name="im.vector.app.push.getui.PushService"-->
+<!--            android:exported="false"-->
+<!--            android:label="PushService"-->
+<!--            android:process=":pushservice" />-->
+<!--        <service android:name="im.vector.app.push.getui.IntentService" />-->
+<!--        &lt;!&ndash;         华为&ndash;&gt;-->
+<!--        <service-->
+<!--            android:name="im.vector.app.push.huawei.DemoHmsMessageService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="103371193" />
+        <meta-data
+            android:name="com.huawei.hms.client.cpid"
+            android:value="890086000300380269"/>
+
+        <meta-data
+            android:name="com.vivo.push.api_key"
+            android:value="cc878ba88f29e64c6207d4467f65a5c8"/>
+
+        <meta-data
+            android:name="com.vivo.push.app_id"
+            android:value="105476444"/>
     </application>
+<!--    <queries>-->
+<!--        <intent>-->
+<!--            <action android:name="com.getui.sdk.action" />-->
+<!--        </intent>-->
+<!--    </queries>-->
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
+
 
 </manifest>
