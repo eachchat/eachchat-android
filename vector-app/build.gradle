@@ -474,7 +474,7 @@ dependencies {
     androidTestImplementation libs.androidx.fragmentTesting
     androidTestImplementation "org.jetbrains.kotlin:kotlin-reflect:1.9.20"
     debugImplementation libs.androidx.fragmentTestingManifest
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.13'
 
     // 个推
 //    implementation 'com.getui:gtsdk:3.2.18.0'  //个推SDK
