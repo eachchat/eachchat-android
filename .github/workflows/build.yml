@@ -35,7 +35,7 @@ jobs:
       - name: Assemble ${{ matrix.target }} debug apk
         run: ./gradlew assemble${{ matrix.target }}RustCryptoDebug $CI_GRADLE_ARG_PROPERTIES
       - name: Upload ${{ matrix.target }} debug APKs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vector-${{ matrix.target }}-debug
           path: |
@@ -59,7 +59,7 @@ jobs:
       - name: Assemble GPlay unsigned apk
         run: ./gradlew clean assembleGplayRustCryptoRelease $CI_GRADLE_ARG_PROPERTIES
       - name: Upload Gplay unsigned APKs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vector-gplay-release-unsigned
           path: |
@@ -81,7 +81,7 @@ jobs:
         with:
           args: /github/workspace/gplayRustCrypto/release/vector-gplay-rustCrypto-universal-release-unsigned.apk -j -o /github/workspace/exodus.json
       - name: Upload exodus json report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: exodus.json
           path: |
