@@ -211,7 +211,7 @@ dependencies {
     implementation 'com.github.hyuwah:DraggableView:1.0.1'
 
     // Custom Tab
-    implementation 'androidx.browser:browser:1.6.0'
+    implementation 'androidx.browser:browser:1.8.0'
 
     // Passphrase strength helper
     implementation 'com.nulab-inc:zxcvbn:1.8.2'
