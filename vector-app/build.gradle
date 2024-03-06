@@ -431,7 +431,7 @@ dependencies {
     debugImplementation 'com.facebook.soloader:soloader:0.10.5'
     debugImplementation "com.kgurgul.flipper:flipper-realm-android:2.2.0"
 
-    gplayImplementation "com.google.android.gms:play-services-location:21.0.1"
+    gplayImplementation "com.google.android.gms:play-services-location:21.2.0"
     // UnifiedPush gplay flavor only
     gplayImplementation platform(libs.google.firebaseBom)
     gplayImplementation(libs.google.messaging) {
